@@ -31,10 +31,10 @@ class BaseRepository(Generic[T]):
         return self
 
     async def __aexit__(
-        self,
-        exc_type: Optional[Type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[TracebackType],
+            self,
+            exc_type: Type[BaseException] | None,
+            exc_val: BaseException | None,
+            exc_tb: TracebackType | None,
     ) -> None:
         if self.connection.closed:
             return
@@ -63,38 +63,8 @@ class BaseRepository(Generic[T]):
             params=(query_filter.offset, query_filter.limit)
         )).fetchall()
 
-    async def create(self, item: T) -> None:
-        item_fields = fields(item)
+    async def login(self):
+        pass
 
-        query = "INSERT INTO %s ("
-        query += ", ".join([field.name for field in item_fields[1:]])
-        query += ") VALUES ("
-        query += ", ".join(["%s" for _ in range(len(item_fields) - 1)]) + ")"
-
-        params = self.retort.dump(item)
-        await self.connection.execute(
-            query=query,
-            params=params)
-
-    async def update(self, item: T) -> None:
-        item_fields = tuple(getattr(item, field.name) for field in fields(item))
-        table_name, _id, *other_data = item_fields
-
-        query = "UPDATE %s SET "
-        query += ", ".join([f"{field_name} = %s" for field_name in fields(item)[2:]])
-        query += " WHERE id = %s"
-
-        params = [table_name] + list(other_data)
-        params.append(_id)
-
-        await self.connection.execute(
-            query=query,
-            params=params
-        )
-
-    async def delete(self, item: T) -> None:
-        query = "DELETE FROM %s WHERE id = %s"
-        await self.connection.execute(
-            query=query,
-            params=tuple(getattr(item, field.name) for field in fields(item))
-        )
+    async def logout(self):
+        pass
