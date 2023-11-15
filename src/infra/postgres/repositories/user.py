@@ -24,21 +24,8 @@ class UserRepository(BaseRepository[UserModel]):
             params=(self.Model.table_name, name)
         )).fetchone()
 
-    async def create_user(self, item: T) -> None:
-        item_fields = fields(item)
-
-        query = "INSERT INTO %s ("
-        query += ", ".join([field.name for field in item_fields[1:]])
-        query += ") VALUES ("
-        query += ", ".join(["%s" for _ in range(len(item_fields) - 1)]) + ")"
-
-        params = self.retort.dump(item)
-        await self.connection.execute(
-            query=query,
-            params=params)
-
-    async def update_user(self, item: T) -> None:
+    async def login(self):
         pass
 
-    async def delete_user(self, item: T) -> None:
+    async def logout(self):
         pass

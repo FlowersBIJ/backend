@@ -63,8 +63,38 @@ class BaseRepository(Generic[T]):
             params=(query_filter.offset, query_filter.limit)
         )).fetchall()
 
-    async def login(self):
-        pass
+    async def create(self, item: T) -> None:
+        item_fields = fields(item)
 
-    async def logout(self):
-        pass
+        query = "INSERT INTO %s ("
+        # fixme: Если ID передаётся явно, то заменить [2:] на [1:], а в переменной params
+        query += ", ".join([field.name for field in item_fields[2:]])
+        query += ") VALUES ("
+        query += ", ".join(["%s" for _ in range(len(item_fields) - 2)]) + ")"
+
+        params = self.retort.dump(item)
+        
+        await self.connection.execute(
+            query=query,
+            params=params)
+
+    async def update(self, item: T) -> None:
+        item_fields = fields(item)
+
+        params = self.retort.dump(item)
+
+        query = "UPDATE %s SET "
+        query += ", ".join([f"{field.name} = %s" for field in fields(item)[2:]])
+        query += " WHERE id = %s"
+
+        await self.connection.execute(
+            query=query,
+            params=params
+        )
+
+    async def delete(self, item: T) -> None:
+        query = "DELETE FROM %s WHERE id = %s"
+        await self.connection.execute(
+            query=query,
+            params=tuple(getattr(item, field.name) for field in fields(item))
+        )
