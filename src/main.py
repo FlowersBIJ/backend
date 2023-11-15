@@ -1,18 +1,14 @@
-from psycopg.rows import class_row
+from adaptix import Retort, name_mapping
 
-# This is a sample Python script.
+from src.infra.postgres.models.user import UserModel
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+retort = Retort(
+    recipe=[
+        name_mapping(
+            UserModel,
+            skip=["table_name"]
+        )
+    ]
+)
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter  to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+print(retort.get_loader(UserModel))
