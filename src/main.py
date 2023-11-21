@@ -1,18 +1,38 @@
-from psycopg.rows import class_row
+import asyncio
+import os
 
-# This is a sample Python script.
+from src.application.common.exceptions import ApplicationException
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from src.app import Application
+from src.infra.log import log
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+8 to toggle the breakpoint.
+logger = log()
 
 
-# Press the green button in the gutter  to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+async def run() -> None:
+    settings_path = os.getenv("SETTINGS")
+    if settings_path is None:
+        raise ApplicationException("Settings environment not specified")
+    app = await Application.from_config(settings_path)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    try:
+        await app.start()
+    finally:
+        await app.dispose()
+
+
+def main() -> None:
+    try:
+        asyncio.run(run())
+        exit(0)
+    except SystemExit:
+        exit(0)
+    except ApplicationException:
+        exit(70)
+    except BaseException:
+        logger.exception("Unexpected error occured")
+        exit(70)
+
+
+if __name__ == "__main__":
+    main()
