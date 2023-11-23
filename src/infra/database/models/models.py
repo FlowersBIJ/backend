@@ -34,3 +34,7 @@ class Plantation(Base):
     )
     plantation_name: Mapped[str] = mapped_column(nullable=False)
     visible: Mapped[bool] = mapped_column(default=True, nullable=False)
+
+
+class Scheme:
+    pass

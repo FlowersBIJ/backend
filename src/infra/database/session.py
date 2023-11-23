@@ -12,7 +12,7 @@ from sqlalchemy.ext.asyncio import (
 def setup_database(
     dsn: str,
 ) -> tuple[Callable[[], AsyncContextManager[AsyncSession]], AsyncEngine]:
-    engine = create_async_engine(
+    engine: AsyncEngine = create_async_engine(
         cast(str, dsn),
         pool_pre_ping=True,
     )
