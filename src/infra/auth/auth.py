@@ -2,7 +2,6 @@ import abc
 
 from casdoor import AsyncCasdoorSDK, User
 from src.infra.auth.exceptions import WrongAuthCode, WrongCredentials, BaseAuthError
-from src.infra.log import log
 
 
 class IAuth(abc.ABC):

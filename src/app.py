@@ -1,13 +1,14 @@
 import asyncio
 import logging
-
 import uvicorn
+
 from dynaconf import Dynaconf  # type: ignore
 from fastapi import FastAPI
 from sqlalchemy.ext.asyncio import AsyncEngine
 from starlette.middleware.cors import CORSMiddleware
 
 from src.exceptions import DisposeException, StartServerException
+from src.infra.auth.auth import IAuth
 from src.infra.log import log
 from src.infra.database.session import setup_database
 from src.presentation.app import setup_routers, setup_middlewares
@@ -19,6 +20,7 @@ class Application:
         config: Dynaconf,
         app: FastAPI,
         sqlalchemy_engine: AsyncEngine,
+        auth: IAuth,
     ) -> None:
         self._config = config
         self._app = app
@@ -58,11 +60,23 @@ class Application:
         setup_routers(app, config.api.prefix)
         setup_middlewares(app)
 
+        logger.info("Initializing auth application")
+        auth = IAuth(
+            endpoint=config.casdoor.endpoint,
+            client_id=config.casdoor.client_id,
+            client_secret=config.casdoor.client_secret,
+            certificate=config.casdoor.certificate,
+            org_name=config.casdoor.org_name,
+            application_name=config.api.project_name
+        )
+        logger.info("Initializing auth finished")
+
         logger.info("Creating application")
         application = Application(
             config=config,
             app=app,
-            sqlalchemy_engine=sqlalchemy_engine
+            sqlalchemy_engine=sqlalchemy_engine,
+            auth=auth
         )
 
         logger.info("Initializing application finished")
