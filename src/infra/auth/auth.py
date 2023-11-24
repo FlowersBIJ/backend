@@ -1,41 +1,204 @@
-from casdoor import AsyncCasdoorSDK
-from dynaconf import Dynaconf
+import abc
 
+from casdoor import AsyncCasdoorSDK, User
+from src.infra.auth.exceptions import WrongAuthCode, WrongCredentials, BaseAuthError
 from src.infra.log import log
 
 
-class Auth:
+class IAuth(abc.ABC):
     def __init__(
             self,
-            config: Dynaconf,
-            sdk: AsyncCasdoorSDK
-    ) -> None:
-        self._config = config
-        self._sdk = sdk
-
-    @classmethod
-    async def from_config(cls, settings_path: str) -> "Auth":
-        config = Dynaconf(
-            envvar_prefix="DYNACONF",
-            settings_files=[
-                settings_path + "/settings.toml"
-            ],
+            endpoint,
+            client_id,
+            client_secret,
+            certificate,
+            org_name,
+            application_name) -> None:
+        self.sdk = AsyncCasdoorSDK(
+            endpoint=endpoint,
+            client_id=client_id,
+            client_secret=client_secret,
+            certificate=certificate,
+            org_name=org_name,
+            application_name=application_name
         )
 
-        logger = log(level=config.log.level)
-        logger.info("Initializing auth app")
-        sdk = AsyncCasdoorSDK(
-            endpoint=config.casdoor.endpoint,
-            client_id=config.casdoor.client_id,
-            client_secret=config.casdoor.client_secret,
-            certificate=config.casdoor.certificate,
-            org_name=config.casdoor.org_name,
-            application_name=config.api.project_name
-        )
-        logger.info("Initializing auth app finished")
-        auth = Auth(
-            config=config,
-            sdk=sdk
-        )
+    @abc.abstractmethod
+    async def get_oauth_token(
+            self,
+            code: str | None = None,
+            username: str | None = None,
+            password: str | None = None):
+        pass
 
-        return auth
+    @abc.abstractmethod
+    async def parse_jwt_token(self, token: str):
+        pass
+
+    @abc.abstractmethod
+    async def add_user(self, user: User):
+        pass
+
+    @abc.abstractmethod
+    async def delete_user(self, user: User):
+        pass
+
+    @abc.abstractmethod
+    async def update_user(self, user: User):
+        pass
+
+    @abc.abstractmethod
+    async def read_user(self, user_id: str):
+        pass
+
+    @abc.abstractmethod
+    async def read_users(self):
+        pass
+
+    @abc.abstractmethod
+    async def batch_enforce(self, permission_model_name: str, permission_rules: list[list[str]]):
+        pass
+
+    @abc.abstractmethod
+    async def enforce(
+            self,
+            permission_model_name: str,
+            sub: str,
+            obj: str,
+            act: str,
+            v3: str | None = None,
+            v4: str | None = None,
+            v5: str | None = None):
+        pass
+
+    @abc.abstractmethod
+    async def get_auth_link(self, redirect_uri: str, response_type: str = "code", scope: str = "read"):
+        pass
+
+    @abc.abstractmethod
+    async def oauth_token_request(
+            self,
+            code: str | None = None,
+            username: str | None = None,
+            password: str | None = None) -> dict:
+        pass
+
+    @abc.abstractmethod
+    async def refresh_oauth_token(self, refresh_token: str, scope: str = "") -> str:
+        pass
+
+    @abc.abstractmethod
+    async def refresh_token_request(self, refresh_token: str, scope: str = "") -> dict:
+        pass
+
+
+class CasdoorAuth(IAuth):
+    async def get_oauth_token(
+            self,
+            code: str | None = None,
+            username: str | None = None,
+            password: str | None = None) -> dict:
+        if code:
+            try:
+                return await self.sdk.get_oauth_token(code=code)
+            except ValueError:
+                raise WrongAuthCode
+        elif username and password:
+            try:
+                return await self.sdk.get_oauth_token(username=username, password=password)
+            except ValueError:
+                raise WrongCredentials
+        else:
+            raise BaseAuthError
+
+    async def parse_jwt_token(self, token: str) -> dict:
+        try:
+            return self.sdk.parse_jwt_token(token)
+        except Exception:
+            raise BaseAuthError
+
+    async def add_user(self, user: User) -> dict:
+        try:
+            return await self.sdk.add_user(user)
+        except Exception:
+            raise BaseAuthError
+
+    async def delete_user(self, user: User) -> None:
+        try:
+            return await self.delete_user(user)
+        except Exception:
+            raise BaseAuthError
+
+    async def update_user(self, user: User) -> dict:
+        try:
+            return await self.sdk.update_user(user)
+        except Exception:
+            raise BaseAuthError
+
+    async def read_user(self, user_id: str) -> dict:
+        try:
+            return await self.sdk.get_user(user_id)
+        except Exception:
+            raise BaseAuthError
+
+    async def read_users(self) -> dict:
+        try:
+            return await self.sdk.get_users()
+        except Exception:
+            raise BaseAuthError
+
+    async def batch_enforce(self, permission_model_name: str, permission_rules: list[list[str]]) -> list[bool]:
+        try:
+            return await self.sdk.batch_enforce(permission_model_name, permission_rules)
+        except Exception:
+            raise BaseAuthError
+
+    async def enforce(
+            self,
+            permission_model_name: str,
+            sub: str,
+            obj: str,
+            act: str,
+            v3: str | None = None,
+            v4: str | None = None,
+            v5: str | None = None) -> bool:
+        try:
+            return await self.sdk.enforce(permission_model_name, sub, obj, act, v3, v4, v5)
+        except Exception:
+            raise BaseAuthError
+
+    async def get_auth_link(self, redirect_uri: str, response_type: str = "code", scope: str = "read") -> str:
+        try:
+            return await self.sdk.get_auth_link(redirect_uri, response_type, scope)
+        except Exception:
+            raise BaseAuthError
+
+    async def oauth_token_request(
+            self,
+            code: str | None = None,
+            username: str | None = None,
+            password: str | None = None) -> dict:
+        if code:
+            try:
+                return await self.sdk.oauth_token_request(code=code)
+            except ValueError:
+                raise WrongAuthCode
+        elif username and password:
+            try:
+                return await self.sdk.oauth_token_request(username=username, password=password)
+            except ValueError:
+                raise WrongCredentials
+        else:
+            raise BaseAuthError
+
+    async def refresh_oauth_token(self, refresh_token: str, scope: str = "") -> str:
+        try:
+            return await self.sdk.refresh_oauth_token(refresh_token, scope)
+        except Exception:
+            raise BaseAuthError
+
+    async def refresh_token_request(self, refresh_token: str, scope: str = "") -> dict:
+        try:
+            return await self.sdk.refresh_token_request(refresh_token, scope)
+        except Exception:
+            raise BaseAuthError

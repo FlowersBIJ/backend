@@ -1,7 +1,7 @@
 class ApplicationException(Exception):
     @property
     def message(self) -> str:
-        return "Application error occured!"
+        return "Application error occurred!"
 
 
 class UnexpectedError(ApplicationException):
@@ -22,3 +22,5 @@ class RepoError(ApplicationException):
 
 class MappingError(ApplicationException):
     pass
+
+
