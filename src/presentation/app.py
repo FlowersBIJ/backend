@@ -1,6 +1,6 @@
 from typing import Any
 
-from fastapi import FastAPI, Depends, APIRouter
+from fastapi import APIRouter, Depends, FastAPI
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from src.infra.log import log
@@ -11,7 +11,6 @@ from src.presentation.routers.middlewares import LoggingMiddleware
 def configure_routers(
     app: FastAPI, prefix: str, auth_enabled: bool, routers: list[APIRouter]
 ):
-
     # DEPENDENCIES = [Depends(has_access)]
     DEPENDENCIES: Any = []
     for router in routers:
@@ -39,6 +38,4 @@ def setup_routers(app: FastAPI, prefix: str) -> None:
 
 def setup_middlewares(app: FastAPI) -> None:
     logging_middleware = LoggingMiddleware(logger=log())
-    app.add_middleware(
-        BaseHTTPMiddleware, dispatch=logging_middleware
-    )
+    app.add_middleware(BaseHTTPMiddleware, dispatch=logging_middleware)

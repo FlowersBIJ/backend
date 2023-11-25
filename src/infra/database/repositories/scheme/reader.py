@@ -1,14 +1,14 @@
 from uuid import UUID
 
-from sqlalchemy import select, func, exists
+from sqlalchemy import exists, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.application.common.filters.filter import Filters, OrderFilter
 from src.application.scheme.dto.scheme import Scheme
 from src.application.scheme.dto.schemes import Schemes
 from src.application.scheme.interfaces.scheme_reader import SchemeReader
-from src.application.common.filters.filter import Filters, OrderFilter
-from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.models.models import Scheme as SchemeDB
+from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import EntityNotFoundException
 
 

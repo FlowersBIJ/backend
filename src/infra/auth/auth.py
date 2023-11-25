@@ -1,4 +1,3 @@
-
 from casdoor import User
 
 from src.application.auth.auth import IAuth
@@ -10,7 +9,8 @@ class CasdoorAuth(IAuth):
             self,
             code: str | None = None,
             username: str | None = None,
-            password: str | None = None) -> dict:
+            password: str | None = None,
+    ) -> dict:
         if code:
             try:
                 return await self.sdk.get_oauth_token(code=code)
@@ -18,7 +18,9 @@ class CasdoorAuth(IAuth):
                 raise WrongAuthCode
         elif username and password:
             try:
-                return await self.sdk.get_oauth_token(username=username, password=password)
+                return await self.sdk.get_oauth_token(
+                    username=username, password=password
+                )
             except ValueError:
                 raise WrongCredentials
         else:
@@ -60,7 +62,9 @@ class CasdoorAuth(IAuth):
         except Exception:
             raise BaseAuthError
 
-    async def batch_enforce(self, permission_model_name: str, permission_rules: list[list[str]]) -> list[bool]:
+    async def batch_enforce(
+            self, permission_model_name: str, permission_rules: list[list[str]]
+    ) -> list[bool]:
         try:
             return await self.sdk.batch_enforce(permission_model_name, permission_rules)
         except Exception:
@@ -74,13 +78,18 @@ class CasdoorAuth(IAuth):
             act: str,
             v3: str | None = None,
             v4: str | None = None,
-            v5: str | None = None) -> bool:
+            v5: str | None = None,
+    ) -> bool:
         try:
-            return await self.sdk.enforce(permission_model_name, sub, obj, act, v3, v4, v5)
+            return await self.sdk.enforce(
+                permission_model_name, sub, obj, act, v3, v4, v5
+            )
         except Exception:
             raise BaseAuthError
 
-    async def get_auth_link(self, redirect_uri: str, response_type: str = "code", scope: str = "read") -> str:
+    async def get_auth_link(
+            self, redirect_uri: str, response_type: str = "code", scope: str = "read"
+    ) -> str:
         try:
             return await self.sdk.get_auth_link(redirect_uri, response_type, scope)
         except Exception:
@@ -90,7 +99,8 @@ class CasdoorAuth(IAuth):
             self,
             code: str | None = None,
             username: str | None = None,
-            password: str | None = None) -> dict:
+            password: str | None = None,
+    ) -> dict:
         if code:
             try:
                 return await self.sdk.oauth_token_request(code=code)
@@ -98,7 +108,9 @@ class CasdoorAuth(IAuth):
                 raise WrongAuthCode
         elif username and password:
             try:
-                return await self.sdk.oauth_token_request(username=username, password=password)
+                return await self.sdk.oauth_token_request(
+                    username=username, password=password
+                )
             except ValueError:
                 raise WrongCredentials
         else:

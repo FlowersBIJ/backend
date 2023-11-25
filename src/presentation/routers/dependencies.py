@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import HTTPException, Depends
+from fastapi import Depends, HTTPException
 from sqlalchemy.ext.asyncio import async_sessionmaker
 from starlette.requests import Request
 

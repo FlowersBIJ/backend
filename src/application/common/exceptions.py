@@ -22,5 +22,3 @@ class RepoError(ApplicationException):
 
 class MappingError(ApplicationException):
     pass
-
-
