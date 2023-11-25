@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 from starlette.middleware.cors import CORSMiddleware
 
 from src.exceptions import DisposeException, StartServerException
-from src.infra.auth.auth import IAuth
+from src.infra.auth.auth import CasdoorAuth
 from src.infra.log import log
 from src.infra.database.session import setup_database
 from src.presentation.app import setup_routers, setup_middlewares
@@ -20,7 +20,7 @@ class Application:
         config: Dynaconf,
         app: FastAPI,
         sqlalchemy_engine: AsyncEngine,
-        auth: IAuth,
+        auth: CasdoorAuth,
     ) -> None:
         self._config = config
         self._app = app
@@ -61,7 +61,7 @@ class Application:
         setup_middlewares(app)
 
         logger.info("Initializing auth application")
-        auth = IAuth(
+        auth = CasdoorAuth(
             endpoint=config.casdoor.endpoint,
             client_id=config.casdoor.client_id,
             client_secret=config.casdoor.client_secret,
