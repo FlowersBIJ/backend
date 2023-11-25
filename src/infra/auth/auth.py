@@ -1,7 +1,7 @@
 from casdoor import User
 
-from src.application.auth.auth import IAuth
 from src.application.auth.exceptions import WrongAuthCode, WrongCredentials, BaseAuthError
+from src.application.auth.interfaces import IAuth
 
 
 class CasdoorAuth(IAuth):
