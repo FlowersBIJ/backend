@@ -1,5 +1,6 @@
-from pydantic import Field, ConfigDict
 from uuid import UUID
+
+from pydantic import ConfigDict, Field
 
 from src.application.common.dto import DataTransferObject
 

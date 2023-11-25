@@ -3,10 +3,10 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 from src.infra.database.repositories.exceptions import (
-    EntityNotFoundException,
-    EntityUpdateException,
     EntityCreateException,
     EntityDeleteException,
+    EntityNotFoundException,
+    EntityUpdateException,
 )
 
 

@@ -1,7 +1,7 @@
 import asyncio
 import logging
-import uvicorn
 
+import uvicorn
 from dynaconf import Dynaconf  # type: ignore
 from fastapi import FastAPI
 from sqlalchemy.ext.asyncio import AsyncEngine
@@ -9,9 +9,9 @@ from starlette.middleware.cors import CORSMiddleware
 
 from src.exceptions import DisposeException, StartServerException
 from src.infra.auth.auth import IAuth
-from src.infra.log import log
 from src.infra.database.session import setup_database
-from src.presentation.app import setup_routers, setup_middlewares
+from src.infra.log import log
+from src.presentation.app import setup_middlewares, setup_routers
 
 
 class Application:
@@ -30,9 +30,7 @@ class Application:
     async def from_config(cls, settings_path: str) -> "Application":
         config = Dynaconf(
             envvar_prefix="DYNACONF",
-            settings_files=[
-                settings_path + "/settings.toml"
-            ],
+            settings_files=[settings_path + "/settings.toml"],
         )
 
         logger = log(level=config.log.level)
@@ -67,16 +65,13 @@ class Application:
             client_secret=config.casdoor.client_secret,
             certificate=config.casdoor.certificate,
             org_name=config.casdoor.org_name,
-            application_name=config.api.project_name
+            application_name=config.api.project_name,
         )
         logger.info("Initializing auth finished")
 
         logger.info("Creating application")
         application = Application(
-            config=config,
-            app=app,
-            sqlalchemy_engine=sqlalchemy_engine,
-            auth=auth
+            config=config, app=app, sqlalchemy_engine=sqlalchemy_engine, auth=auth
         )
 
         logger.info("Initializing application finished")
@@ -95,7 +90,7 @@ class Application:
                 config=uvicorn.Config(
                     app=self._app,
                     host=self._config.api.host,
-                    port=int(self._config.api.port)
+                    port=int(self._config.api.port),
                 )
             )
             logger_access = logging.getLogger("uvicorn.access")

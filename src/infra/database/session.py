@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-from typing import Callable, cast, AsyncGenerator, AsyncContextManager
+from typing import AsyncContextManager, AsyncGenerator, Callable, cast
 
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,

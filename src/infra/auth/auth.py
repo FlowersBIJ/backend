@@ -1,102 +1,15 @@
 import abc
 
-from casdoor import AsyncCasdoorSDK, User
-from src.infra.auth.exceptions import WrongAuthCode, WrongCredentials, BaseAuthError
-
-
-class IAuth(abc.ABC):
-    def __init__(
-            self,
-            endpoint,
-            client_id,
-            client_secret,
-            certificate,
-            org_name,
-            application_name) -> None:
-        self.sdk = AsyncCasdoorSDK(
-            endpoint=endpoint,
-            client_id=client_id,
-            client_secret=client_secret,
-            certificate=certificate,
-            org_name=org_name,
-            application_name=application_name
-        )
-
-    @abc.abstractmethod
-    async def get_oauth_token(
-            self,
-            code: str | None = None,
-            username: str | None = None,
-            password: str | None = None):
-        pass
-
-    @abc.abstractmethod
-    async def parse_jwt_token(self, token: str):
-        pass
-
-    @abc.abstractmethod
-    async def add_user(self, user: User):
-        pass
-
-    @abc.abstractmethod
-    async def delete_user(self, user: User):
-        pass
-
-    @abc.abstractmethod
-    async def update_user(self, user: User):
-        pass
-
-    @abc.abstractmethod
-    async def read_user(self, user_id: str):
-        pass
-
-    @abc.abstractmethod
-    async def read_users(self):
-        pass
-
-    @abc.abstractmethod
-    async def batch_enforce(self, permission_model_name: str, permission_rules: list[list[str]]):
-        pass
-
-    @abc.abstractmethod
-    async def enforce(
-            self,
-            permission_model_name: str,
-            sub: str,
-            obj: str,
-            act: str,
-            v3: str | None = None,
-            v4: str | None = None,
-            v5: str | None = None):
-        pass
-
-    @abc.abstractmethod
-    async def get_auth_link(self, redirect_uri: str, response_type: str = "code", scope: str = "read"):
-        pass
-
-    @abc.abstractmethod
-    async def oauth_token_request(
-            self,
-            code: str | None = None,
-            username: str | None = None,
-            password: str | None = None) -> dict:
-        pass
-
-    @abc.abstractmethod
-    async def refresh_oauth_token(self, refresh_token: str, scope: str = "") -> str:
-        pass
-
-    @abc.abstractmethod
-    async def refresh_token_request(self, refresh_token: str, scope: str = "") -> dict:
-        pass
+from src.infra.auth.exceptions import BaseAuthError, WrongAuthCode, WrongCredentials
 
 
 class CasdoorAuth(IAuth):
     async def get_oauth_token(
-            self,
-            code: str | None = None,
-            username: str | None = None,
-            password: str | None = None) -> dict:
+        self,
+        code: str | None = None,
+        username: str | None = None,
+        password: str | None = None,
+    ) -> dict:
         if code:
             try:
                 return await self.sdk.get_oauth_token(code=code)
@@ -104,7 +17,9 @@ class CasdoorAuth(IAuth):
                 raise WrongAuthCode
         elif username and password:
             try:
-                return await self.sdk.get_oauth_token(username=username, password=password)
+                return await self.sdk.get_oauth_token(
+                    username=username, password=password
+                )
             except ValueError:
                 raise WrongCredentials
         else:
@@ -146,37 +61,45 @@ class CasdoorAuth(IAuth):
         except Exception:
             raise BaseAuthError
 
-    async def batch_enforce(self, permission_model_name: str, permission_rules: list[list[str]]) -> list[bool]:
+    async def batch_enforce(
+        self, permission_model_name: str, permission_rules: list[list[str]]
+    ) -> list[bool]:
         try:
             return await self.sdk.batch_enforce(permission_model_name, permission_rules)
         except Exception:
             raise BaseAuthError
 
     async def enforce(
-            self,
-            permission_model_name: str,
-            sub: str,
-            obj: str,
-            act: str,
-            v3: str | None = None,
-            v4: str | None = None,
-            v5: str | None = None) -> bool:
+        self,
+        permission_model_name: str,
+        sub: str,
+        obj: str,
+        act: str,
+        v3: str | None = None,
+        v4: str | None = None,
+        v5: str | None = None,
+    ) -> bool:
         try:
-            return await self.sdk.enforce(permission_model_name, sub, obj, act, v3, v4, v5)
+            return await self.sdk.enforce(
+                permission_model_name, sub, obj, act, v3, v4, v5
+            )
         except Exception:
             raise BaseAuthError
 
-    async def get_auth_link(self, redirect_uri: str, response_type: str = "code", scope: str = "read") -> str:
+    async def get_auth_link(
+        self, redirect_uri: str, response_type: str = "code", scope: str = "read"
+    ) -> str:
         try:
             return await self.sdk.get_auth_link(redirect_uri, response_type, scope)
         except Exception:
             raise BaseAuthError
 
     async def oauth_token_request(
-            self,
-            code: str | None = None,
-            username: str | None = None,
-            password: str | None = None) -> dict:
+        self,
+        code: str | None = None,
+        username: str | None = None,
+        password: str | None = None,
+    ) -> dict:
         if code:
             try:
                 return await self.sdk.oauth_token_request(code=code)
@@ -184,7 +107,9 @@ class CasdoorAuth(IAuth):
                 raise WrongAuthCode
         elif username and password:
             try:
-                return await self.sdk.oauth_token_request(username=username, password=password)
+                return await self.sdk.oauth_token_request(
+                    username=username, password=password
+                )
             except ValueError:
                 raise WrongCredentials
         else:

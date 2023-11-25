@@ -3,18 +3,18 @@ from uuid import UUID
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.application.common.entity_mutator import mutate_entity
 from src.application.scheme.dto.scheme import Scheme
 from src.application.scheme.dto.scheme_create import SchemeCreate
 from src.application.scheme.dto.scheme_update import SchemeUpdate
-from src.application.common.entity_mutator import mutate_entity
-from src.infra.database.repositories.base import BaseRepo
-from src.infra.database.models.models import Scheme as SchemeDB
 from src.application.scheme.interfaces.scheme_mutator import SchemeMutator
+from src.infra.database.models.models import Scheme as SchemeDB
+from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import (
     EntityCreateException,
-    EntityUpdateException,
-    EntityNotFoundException,
     EntityDeleteException,
+    EntityNotFoundException,
+    EntityUpdateException,
 )
 
 

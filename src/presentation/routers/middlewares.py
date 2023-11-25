@@ -17,9 +17,11 @@ class LoggingMiddleware:
         decoded_resp = response_body.decode()
 
         self.log.info(
-            status=response.status_code,
-            content=decoded_resp,
-            headers=response.headers
+            status=response.status_code, content=decoded_resp, headers=response.headers
         )
-        return Response(status_code=response.status_code, content=response_body, headers=response.headers,
-                        media_type=response.media_type)
+        return Response(
+            status_code=response.status_code,
+            content=response_body,
+            headers=response.headers,
+            media_type=response.media_type,
+        )
