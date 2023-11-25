@@ -1,6 +1,6 @@
 import abc
 
-from casdoor import AsyncCasdoorSDK
+from casdoor import AsyncCasdoorSDK, User
 
 
 class IAuth(abc.ABC):
