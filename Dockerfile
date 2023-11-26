@@ -16,7 +16,7 @@ RUN poetry config virtualenvs.create false && \
     poetry install --no-interaction --no-cache && \
     rm -rf ~/.cache ~/.config/pypoetry/auth.toml
 
-COPY alembic.ini /alembic.ini
+#COPY alembic.ini /alembic.ini
 COPY /src /src
 COPY deploy /deploy
 
