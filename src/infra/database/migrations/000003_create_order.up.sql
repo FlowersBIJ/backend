@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS orders (
     manager_name VARCHAR NOT NULL,
     comment VARCHAR,
     visible BOOLEAN NOT NULL DEFAULT true,
-    order_type VARCHAR,
-    client_name VARCHAR,
+    order_type VARCHAR NOT NULL,
+    client_name VARCHAR NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(order_type) REFERENCES order_types(typename),
     FOREIGN KEY(client_name) REFERENCES clients(client_name)

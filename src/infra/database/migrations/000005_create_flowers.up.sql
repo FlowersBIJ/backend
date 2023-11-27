@@ -29,9 +29,9 @@ CREATE TABLE IF NOT EXISTS flowers_in_box (
     hotline_miami_price NUMERIC(1000, 2) CHECK (hotline_miami_price>0),
     visible BOOLEAN NOT NULL DEFAULT true,
     box_id uuid,
-    flower_name VARCHAR,
-    flower_sort VARCHAR,
-    flower_length VARCHAR,
+    flower_name VARCHAR NOT NULL,
+    flower_sort VARCHAR NOT NULL,
+    flower_length VARCHAR NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(box_id) REFERENCES boxes(id) ON DELETE CASCADE,
     FOREIGN KEY(flower_name, flower_sort, flower_length) REFERENCES flowers_length(flower_name, flower_sort, flower_length)

@@ -13,13 +13,14 @@ CREATE TABLE IF NOT EXISTS plantations (
 CREATE TABLE IF NOT EXISTS boxes (
     id uuid DEFAULT uuid_generate_v4(),
     income_invoice VARCHAR,
+    release_date TIMESTAMP,
     box_number INTEGER,
     visible BOOLEAN NOT NULL DEFAULT true,
-    box_type VARCHAR,
-    plantation VARCHAR,
-    order_id uuid,
+    box_type VARCHAR NOT NULL,
+    plantation VARCHAR NOT NULL,
+    order_id uuid NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(box_type) REFERENCES box_types(typename),
     FOREIGN KEY(plantation) REFERENCES plantations(plantation_name),
-    FOREIGN KEY(order_id) REFERENCES orders(id)
+    FOREIGN KEY(order_id) REFERENCES orders(id) ON DELETE CASCADE
 );
