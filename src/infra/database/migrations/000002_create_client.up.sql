@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS clients (
     alternative_name VARCHAR,
     visible BOOLEAN NOT NULL DEFAULT true,
     country VARCHAR NOT NULL,
-    city VARCHAR,
+    city VARCHAR NOT NULL,
     agencie VARCHAR,
     truck VARCHAR,
     PRIMARY KEY(client_name),

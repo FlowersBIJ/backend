@@ -24,9 +24,9 @@ CREATE TABLE IF NOT EXISTS flowers_length (
 CREATE TABLE IF NOT EXISTS flowers_in_box (
     id uuid DEFAULT uuid_generate_v4(),
     stems INTEGER NOT NULL,
-    income_price NUMERIC(1000, 2) NOT NULL CHECK (income_price>0),
-    outcome_price NUMERIC(1000, 2) CHECK (outcome_price>0),
-    hotline_miami_price NUMERIC(1000, 2) CHECK (hotline_miami_price>0),
+    income_price REAL NOT NULL CHECK (income_price>0),
+    outcome_price REAL CHECK (outcome_price>0),
+    hotline_miami_price REAL CHECK (hotline_miami_price>0),
     visible BOOLEAN NOT NULL DEFAULT true,
     box_id uuid,
     flower_name VARCHAR NOT NULL,

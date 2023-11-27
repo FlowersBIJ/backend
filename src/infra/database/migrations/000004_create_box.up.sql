@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS plantations (
 CREATE TABLE IF NOT EXISTS boxes (
     id uuid DEFAULT uuid_generate_v4(),
     income_invoice VARCHAR,
-    release_date TIMESTAMP,
-    box_number INTEGER,
+    release_date DATE,
+    box_count INTEGER CHECK(box_count > 0),
     visible BOOLEAN NOT NULL DEFAULT true,
     box_type VARCHAR NOT NULL,
     plantation VARCHAR NOT NULL,
