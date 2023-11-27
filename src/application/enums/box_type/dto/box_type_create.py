@@ -2,6 +2,6 @@ from src.application.common.dto import DTOCreate
 
 
 class BoxTypeCreate(DTOCreate):
-    type: str
+    typename: str
     visible: bool
     

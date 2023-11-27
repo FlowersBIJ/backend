@@ -7,7 +7,7 @@ from src.application.enums.plantation.dto.plantations import Plantations
 
 class PlantationReader(ABC):
     @abstractmethod
-    async def get_by_name(self, name: str) -> Plantation:
+    async def get_by_name(self, plantation_name: str) -> Plantation:
         raise NotImplementedError
 
     @abstractmethod
@@ -19,6 +19,6 @@ class PlantationReader(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def check_exists_by_name(self, name: str) -> bool:
+    async def check_exists_by_name(self, plantation_name: str) -> bool:
         raise NotImplementedError
     

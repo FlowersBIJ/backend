@@ -2,6 +2,6 @@ from src.application.common.dto import DataTransferObject
 
 
 class BoxType(DataTransferObject):
-    type: str
+    typename: str
     visible: bool
     

@@ -7,7 +7,7 @@ from src.application.enums.agencie.dto.agencies import Agencies
 
 class AgencieReader(ABC):
     @abstractmethod
-    async def get_by_name(self, name: str) -> Agencie:
+    async def get_by_name(self, agencie_name: str) -> Agencie:
         raise NotImplementedError
 
     @abstractmethod
@@ -19,6 +19,6 @@ class AgencieReader(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def check_exists_by_name(self, name: str) -> bool:
+    async def check_exists_by_name(self, agencie_name: str) -> bool:
         raise NotImplementedError
     

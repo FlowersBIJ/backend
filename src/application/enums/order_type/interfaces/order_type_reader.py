@@ -7,7 +7,7 @@ from src.application.enums.order_type.dto.order_types import OrderTypes
 
 class OrderTypeReader(ABC):
     @abstractmethod
-    async def get_by_name(self, name: str) -> OrderType:
+    async def get_by_name(self, typename: str) -> OrderType:
         raise NotImplementedError
 
     @abstractmethod
@@ -19,6 +19,6 @@ class OrderTypeReader(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def check_exists_by_name(self, name: str) -> bool:
+    async def check_exists_by_name(self, typename: str) -> bool:
         raise NotImplementedError
     

@@ -2,6 +2,6 @@ from src.application.common.dto import DataTransferObject
 
 
 class Truck(DataTransferObject):
-    name: str
+    truck_name: str
     visible: bool
     

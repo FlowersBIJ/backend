@@ -2,6 +2,6 @@ from src.application.common.dto import DTOCreate
 
 
 class AgencieCreate(DTOCreate):
-    name: str
+    agencie_name: str
     visible: bool
     

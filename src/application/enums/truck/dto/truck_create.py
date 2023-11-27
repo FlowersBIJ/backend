@@ -2,6 +2,6 @@ from src.application.common.dto import DTOCreate
 
 
 class TruckCreate(DTOCreate):
-    name: str
+    truck_name: str
     visible: bool
     

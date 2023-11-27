@@ -2,6 +2,6 @@ from src.application.common.dto import DataTransferObject
 
 
 class Agencie(DataTransferObject):
-    name: str
+    agencie_name: str
     visible: bool
     

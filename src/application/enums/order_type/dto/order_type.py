@@ -2,6 +2,6 @@ from src.application.common.dto import DataTransferObject
 
 
 class OrderType(DataTransferObject):
-    type: str
+    typename: str
     visible: bool
     

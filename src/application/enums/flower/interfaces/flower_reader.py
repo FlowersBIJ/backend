@@ -7,7 +7,7 @@ from src.application.enums.flower.dto.flowers import Flowers
 
 class FlowerReader(ABC):
     @abstractmethod
-    async def get_by_name(self, name: str) -> Flower:
+    async def get_by_name(self, flower_name: str) -> Flower:
         raise NotImplementedError
 
     @abstractmethod
@@ -19,6 +19,6 @@ class FlowerReader(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def check_exists_by_name(self, name: str) -> bool:
+    async def check_exists_by_name(self, flower_name: str) -> bool:
         raise NotImplementedError
     

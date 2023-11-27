@@ -2,5 +2,5 @@ from src.application.common.dto import DTOUpdate
 
 
 class AgencieUpdate(DTOUpdate):
-    name: str
+    agencie_name: str
     

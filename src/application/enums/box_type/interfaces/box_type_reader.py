@@ -7,7 +7,7 @@ from src.application.enums.box_type.dto.box_types import BoxTypes
 
 class BoxTypeReader(ABC):
     @abstractmethod
-    async def get_by_name(self, name: str) -> BoxType:
+    async def get_by_name(self, typename: str) -> BoxType:
         raise NotImplementedError
 
     @abstractmethod
@@ -19,6 +19,6 @@ class BoxTypeReader(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def check_exists_by_name(self, name: str) -> bool:
+    async def check_exists_by_name(self, typename: str) -> bool:
         raise NotImplementedError
     

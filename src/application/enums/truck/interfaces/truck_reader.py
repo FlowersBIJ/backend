@@ -7,7 +7,7 @@ from src.application.enums.truck.dto.trucks import Trucks
 
 class TruckReader(ABC):
     @abstractmethod
-    async def get_by_name(self, name: str) -> Truck:
+    async def get_by_name(self, truck_name: str) -> Truck:
         raise NotImplementedError
 
     @abstractmethod
@@ -19,6 +19,6 @@ class TruckReader(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def check_exists_by_name(self, name: str) -> bool:
+    async def check_exists_by_name(self, truck_name: str) -> bool:
         raise NotImplementedError
     
