@@ -12,3 +12,4 @@ class Orders(DataTransferObject):
     total: int
     offset: int | None = None
     limit: int | None = None
+

@@ -6,15 +6,15 @@ from src.application.common.dto import DTOUpdate
 
 class ClientUpdate(DTOUpdate):
     alternative_name: str | None = Field(default=None)
-    
-    visible: bool | None = Field(default=None)
-    
+
+    visible: bool | None = Field(default=None, description="visible or invisible for manager")
+
     country: str | None = Field(default=None)
-    city: str | None = Field(default=None) 
-    
+    city: str | None = Field(default=None)
+
     agencie: str | None = Field(default=None)
     truck: str | None = Field(default=None)
-    
+
     @model_validator(mode="before")  # type: ignore
     def check_something_exists(cls, data: Any) -> Any:
         if isinstance(data, dict):
@@ -23,4 +23,3 @@ class ClientUpdate(DTOUpdate):
                 raise ValueError
             return data
         raise ValueError
-    
