@@ -1,3 +1,4 @@
 DROP TABLE IF EXISTS boxes;
+DROP TABLE IF EXISTS income_invoices;
 DROP TABLE IF EXISTS plantations;
 DROP TABLE IF EXISTS box_types;
