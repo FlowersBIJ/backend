@@ -7,7 +7,7 @@ from src.application.common.dto import DTOUpdate
 
 
 class BoxUpdate(DTOUpdate):
-    income_invoice: str | None = Field(default=None)
+    invoice_id: uuid.UUID | None = Field(default=None)
     release_date: date | None  = Field(default=None)
     
     box_count: int | None  = Field(default=None)
