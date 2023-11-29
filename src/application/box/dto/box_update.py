@@ -1,7 +1,7 @@
 import uuid
 from datetime import date
 from typing import Any
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from src.application.common.dto import DTOUpdate
 
@@ -11,10 +11,9 @@ class BoxUpdate(DTOUpdate):
     release_date: date | None  = Field(default=None)
     
     box_count: int | None  = Field(default=None)
-    visible: bool | None  = Field(default=None)
+    visible: bool | None  = Field(default=None, description="visible or invisible for manager")
     
-    box_type: str | None  = Field(default=None)
-    plantation: str | None  = Field(default=None)
+    box_type: str | None  = Field(default=None , description="Is necessary to set at least for one flower")
     
     order_id: uuid.UUID | None  = Field(default=None)
     

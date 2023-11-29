@@ -4,7 +4,7 @@ from src.application.flower_in_box.dto.flower_in_box_create import FlowerInBoxCr
 from src.application.flower_in_box.dto.flower_in_box_update import FlowerInBoxUpdate
 
 
-FlowerInBoxDTO = Box | FlowerInBoxCreate | FlowerInBoxUpdate
+FlowerInBoxDTO = FlowerInBox | FlowerInBoxCreate | FlowerInBoxUpdate
 
 
 class FlowersInBox(DataTransferObject):
