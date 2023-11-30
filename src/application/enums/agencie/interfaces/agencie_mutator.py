@@ -9,11 +9,11 @@ class AgencieMutator(ABC):
     @abstractmethod
     async def add(self, agencie: AgencieCreate) -> Agencie:
         raise NotImplementedError
-    
+
     @abstractmethod
     async def change_visibility(self, agencie: AgencieUpdate) -> Agencie:
         raise NotImplementedError
-    
+
     @abstractmethod
     async def delete(self, agencie: AgencieUpdate) -> None:
         raise NotImplementedError
