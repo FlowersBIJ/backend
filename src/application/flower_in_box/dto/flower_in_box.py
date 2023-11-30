@@ -1,15 +1,17 @@
 import uuid
 from datetime import date
 
+from pydantic import Field
+
 from src.application.common.dto import DataTransferObject
 
 
 class FlowerInBox(DataTransferObject):
     id: uuid.UUID
     
-    income_price_per_stem: float
-    outcome_price_per_stem: float | None
-    hotline_miami_price_per_stem: float | None
+    income_price_per_stem: float = Field(gt=0)
+    outcome_price_per_stem: float | None = Field(gt=0)
+    hotline_miami_price_per_stem: float | None = Field(gt=0)
     
     visible: bool
     

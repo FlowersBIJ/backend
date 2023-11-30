@@ -78,7 +78,7 @@ class Reader(BaseRepo, FlowerLengthReader):
             await self.db.scalar(q)
         ) or 0
 
-    async def check_exists_by_sort(self, flower_length: FlowersLength) -> bool:
+    async def check_exists_by_sort(self, flower_length: FlowerLength) -> bool:
         query = select(exists(FlowerLengthDB).where(
             and_(
                 FlowerLengthDB.flower_name == flower_length.flower_name,

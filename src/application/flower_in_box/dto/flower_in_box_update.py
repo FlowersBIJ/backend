@@ -7,9 +7,9 @@ from src.application.common.dto import DTOUpdate
 
 
 class FlowerInBoxUpdate(DTOUpdate):
-    income_price_per_stem: float | None = Field(default=None)
-    outcome_price_per_stem: float | None = Field(default=None)
-    hotline_miami_price_per_stem: float | None = Field(default=None)
+    income_price_per_stem: float | None = Field(default=None, gt=0)
+    outcome_price_per_stem: float | None = Field(default=None, gt=0)
+    hotline_miami_price_per_stem: float | None = Field(default=None, gt=0)
     
     visible: bool | None = Field(default=None)
     
