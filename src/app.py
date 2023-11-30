@@ -6,7 +6,6 @@ from dynaconf import Dynaconf  # type: ignore
 from fastapi import FastAPI
 from sqlalchemy.ext.asyncio import AsyncEngine
 from starlette.middleware.cors import CORSMiddleware
-from casdoor import AsyncCasdoorSDK
 
 from src.exceptions import DisposeException, StartServerException
 from src.infra.log import log
