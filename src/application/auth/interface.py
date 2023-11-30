@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from casdoor import AsyncCasdoorSDK
+from casdoor import AsyncCasdoorSDK, User
 
 
 class BaseAuth(ABC):
@@ -57,3 +57,15 @@ class UserInterface(BaseAuth):
             v5: str | None = None,
     ):
         raise NotImplementedError
+
+    @abstractmethod
+    async def add_user(self, user: User):
+        return self.sdk.add_user(user)
+
+    @abstractmethod
+    async def update_user(self, user: User):
+        return self.sdk.update_user(user)
+
+    @abstractmethod
+    async def delete_user(self, user: User):
+        return self.sdk.delete_user(user)
