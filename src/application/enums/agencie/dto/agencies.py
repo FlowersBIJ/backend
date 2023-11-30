@@ -10,5 +10,6 @@ class Agencies(DataTransferObject):
     agencies: list[AgencieDTO]
     total: int | None = None
     offset: int | None = None
-    visible: bool
+    limit: int | None = None
+    visible: bool | None
     

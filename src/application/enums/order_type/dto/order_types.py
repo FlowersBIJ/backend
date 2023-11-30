@@ -10,4 +10,5 @@ class OrderTypes(DataTransferObject):
     types: list[OrderTypeDTO]
     total: int | None = None
     offset: int | None = None
+    limit: int | None = None
     visible: bool

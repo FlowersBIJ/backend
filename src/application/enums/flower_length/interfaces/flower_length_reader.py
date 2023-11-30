@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 
 from src.application.common.filters.filter import Filters
-from src.application.enums.flower_length.dto.flower_length import FlowerLength
 from src.application.enums.flower_length.dto.flowers_length import FlowersLength
 
 
@@ -15,7 +14,7 @@ class FlowerLengthReader(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_count(self, invisible: bool = False) -> int:
+    async def get_count(self) -> int:
         raise NotImplementedError
     
     @abstractmethod

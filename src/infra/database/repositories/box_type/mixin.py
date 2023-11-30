@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.infra.database.repositories.scheme.mutator import Mutator
-from src.infra.database.repositories.scheme.reader import Reader
+from src.infra.database.repositories.box_type.mutator import Mutator
+from src.infra.database.repositories.box_type.reader import Reader
 
 
 class Mixin:

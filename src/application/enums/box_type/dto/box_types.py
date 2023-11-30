@@ -7,7 +7,8 @@ BoxTypeDTO = BoxType | BoxTypeUpdate | BoxTypeCreate
 
 
 class BoxTypes(DataTransferObject):
-    boxes: list[BoxTypeDTO]
-    total: int | None = None
+    box_types: list[BoxTypeDTO]
+    total: int
     offset: int | None = None
-    visible: bool
+    limit: int | None = None
+    visible: bool | None

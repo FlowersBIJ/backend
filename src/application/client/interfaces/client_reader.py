@@ -15,7 +15,7 @@ class ClientReader(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_count(self, invisible: bool = False) -> int:
+    async def get_count(self, visible: bool | None = None) -> int:
         raise NotImplementedError
 
     @abstractmethod

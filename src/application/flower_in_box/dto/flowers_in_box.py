@@ -12,3 +12,4 @@ class FlowersInBox(DataTransferObject):
     total: int
     offset: int | None = None
     limit: int | None = None
+    visible: bool | None = None

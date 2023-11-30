@@ -6,7 +6,7 @@ from src.application.income_invoice.dto.income_invoice import IncomeInvoice
 from src.application.income_invoice.dto.income_invoices import IncomeInvoices
 
 
-class BoxReader(ABC):
+class IncomeInvoiceReader(ABC):
     @abstractmethod
     async def get_by_id(self, invoice_id: uuid.UUID) -> IncomeInvoice:
         raise NotImplementedError
@@ -16,7 +16,7 @@ class BoxReader(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_count(self, invisible: bool = False) -> int:
+    async def get_count(self) -> int:
         raise NotImplementedError
 
     @abstractmethod
