@@ -1,6 +1,6 @@
 import uuid
 from datetime import date
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 from sqlalchemy import ForeignKey, ForeignKeyConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -90,5 +90,5 @@ class FlowerInBox(Base):
         nullable=False
     )
 
-    box: Mapped[Box] = relationship(back_populates="flowers")
+    box: Mapped["Box"] = relationship(back_populates="flowers")
     lenght: Mapped[FlowerLength] = relationship(back_populates="flowers")

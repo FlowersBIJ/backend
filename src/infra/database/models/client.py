@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -43,4 +43,4 @@ class Client(Base):
 
     ag: Mapped[Agencie] = relationship(back_populates="clients")
     tr: Mapped[Truck] = relationship(back_populates="clients")
-    orders: Mapped[list[Order]] = relationship(back_populates="client")
+    orders: Mapped[List["Order"]] = relationship(back_populates="client")
