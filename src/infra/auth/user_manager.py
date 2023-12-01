@@ -1,6 +1,6 @@
-from typing import Dict, Any
+from typing import Dict
 
-from casdoor import User
+from casdoor import User  # type: ignore
 
 from src.application.auth.repos.user_repo import UIAuth
 

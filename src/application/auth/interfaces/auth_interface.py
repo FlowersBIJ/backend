@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from casdoor import AsyncCasdoorSDK
+from casdoor import AsyncCasdoorSDK  # type: ignore
 
 
 class IJWTValidatorService(ABC):

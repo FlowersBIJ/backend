@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Any
 
-from casdoor import AsyncCasdoorSDK, User
+from casdoor import AsyncCasdoorSDK, User  # type: ignore
 
 
 class UIAuth(ABC):
