@@ -60,15 +60,16 @@ class Application:
         setup_middlewares(app)
 
         logger.info("Initializing auth application")
-        auth = CasdoorAuth(
-            endpoint=config.casdoor.endpoint,
-            client_id=config.casdoor.client_id,
-            client_secret=config.casdoor.client_secret,
-            certificate=config.casdoor.certificate,
-            org_name=config.casdoor.org_name,
-            application_name=config.api.project_name,
-            front_endpoint=config.casdoor.front_endpoint
-        )
+        auth_params = {
+            "endpoint": config.casdoor.endpoint,
+            "client_id": config.casdoor.client_id,
+            "client_secret": config.casdoor.client_secret,
+            "certificate": config.casdoor.certificate,
+            "org_name": config.casdoor.org_name,
+            "application_name": config.api.project_name,
+            "front_endpoint": config.casdoor.front_endpoint
+        }
+        auth = CasdoorAuth(**auth_params)
         logger.info("Initializing auth finished")
 
         logger.info("Creating application")
