@@ -1,67 +1,48 @@
 from casdoor import User
 
-from src.application.auth.exceptions import WrongAuthCode, WrongCredentials, BaseAuthError
-from src.application.auth.interfaces import IAuth
+from src.application.auth.interfaces import IAuth, UserInterface
+from src.infra.auth.exceptions import BaseAuthError, WrongAuthCode, WrongCredentials
 
 
 class CasdoorAuth(IAuth):
-    async def get_oauth_token(
+    async def get_parsed_jwt_token(
             self,
             code: str | None = None,
             username: str | None = None,
-            password: str | None = None,
-    ) -> dict:
+            password: str | None = None):
         if code:
             try:
-                return await self.sdk.get_oauth_token(code=code)
+                token = await self.sdk.get_oauth_token(code=code)
+                access_token = token.get("access_token")
+                return self.sdk.parse_jwt_token(access_token)
             except ValueError:
                 raise WrongAuthCode
         elif username and password:
             try:
-                return await self.sdk.get_oauth_token(
-                    username=username, password=password
-                )
+                token = await self.sdk.get_oauth_token(username=username, password=password)
+                access_token = token.get("access_token")
+                return self.sdk.parse_jwt_token(access_token)
             except ValueError:
                 raise WrongCredentials
         else:
             raise BaseAuthError
 
-    async def parse_jwt_token(self, token: str) -> dict:
+    async def get_auth_link(
+            self, redirect_uri: str, response_type: str = "code", scope: str = "read"
+    ) -> str:
         try:
-            return self.sdk.parse_jwt_token(token)
+            return await self.sdk.get_auth_link(redirect_uri, response_type, scope)
         except Exception:
             raise BaseAuthError
 
-    async def add_user(self, user: User) -> dict:
+    async def refresh_oauth_token(self, refresh_token: str, scope: str = "") -> str:
         try:
-            return await self.sdk.add_user(user)
+            return await self.sdk.refresh_oauth_token(refresh_token, scope)
         except Exception:
             raise BaseAuthError
 
-    async def delete_user(self, user: User) -> None:
-        try:
-            return await self.delete_user(user)
-        except Exception:
-            raise BaseAuthError
 
-    async def update_user(self, user: User) -> dict:
-        try:
-            return await self.sdk.update_user(user)
-        except Exception:
-            raise BaseAuthError
-
-    async def read_user(self, user_id: str) -> dict:
-        try:
-            return await self.sdk.get_user(user_id)
-        except Exception:
-            raise BaseAuthError
-
-    async def read_users(self) -> dict:
-        try:
-            return await self.sdk.get_users()
-        except Exception:
-            raise BaseAuthError
-
+class CasdoorUser(UserInterface):
     async def batch_enforce(
             self, permission_model_name: str, permission_rules: list[list[str]]
     ) -> list[bool]:
@@ -87,43 +68,11 @@ class CasdoorAuth(IAuth):
         except Exception:
             raise BaseAuthError
 
-    async def get_auth_link(
-            self, redirect_uri: str, response_type: str = "code", scope: str = "read"
-    ) -> str:
-        try:
-            return await self.sdk.get_auth_link(redirect_uri, response_type, scope)
-        except Exception:
-            raise BaseAuthError
+    async def add_user(self, user: User):
+        return self.sdk.add_user(user)
 
-    async def oauth_token_request(
-            self,
-            code: str | None = None,
-            username: str | None = None,
-            password: str | None = None,
-    ) -> dict:
-        if code:
-            try:
-                return await self.sdk.oauth_token_request(code=code)
-            except ValueError:
-                raise WrongAuthCode
-        elif username and password:
-            try:
-                return await self.sdk.oauth_token_request(
-                    username=username, password=password
-                )
-            except ValueError:
-                raise WrongCredentials
-        else:
-            raise BaseAuthError
+    async def update_user(self, user: User):
+        return self.sdk.update_user(user)
 
-    async def refresh_oauth_token(self, refresh_token: str, scope: str = "") -> str:
-        try:
-            return await self.sdk.refresh_oauth_token(refresh_token, scope)
-        except Exception:
-            raise BaseAuthError
-
-    async def refresh_token_request(self, refresh_token: str, scope: str = "") -> dict:
-        try:
-            return await self.sdk.refresh_token_request(refresh_token, scope)
-        except Exception:
-            raise BaseAuthError
+    async def delete_user(self, user: User):
+        return self.sdk.delete_user(user)

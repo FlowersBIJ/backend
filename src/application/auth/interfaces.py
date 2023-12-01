@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from casdoor import AsyncCasdoorSDK, User
 
 
-class BaseAuth(ABC):
+class BaseAuth:
     def __init__(self,
                  endpoint: str,
                  client_id: str,
@@ -24,7 +24,7 @@ class BaseAuth(ABC):
         self.sdk = AsyncCasdoorSDK(**params)
 
 
-class IAuth(BaseAuth):
+class IAuth(ABC, BaseAuth):
     @abstractmethod
     async def get_parsed_jwt_token(self, code):
         raise NotImplementedError
@@ -38,7 +38,7 @@ class IAuth(BaseAuth):
         raise NotImplementedError
 
 
-class UserInterface(BaseAuth):
+class UserInterface(ABC, BaseAuth):
     @abstractmethod
     async def batch_enforce(
             self, permission_model_name: str, permission_rules: list[list[str]]
