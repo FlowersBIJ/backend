@@ -9,7 +9,6 @@ from starlette.middleware.cors import CORSMiddleware
 
 from src.exceptions import DisposeException, StartServerException
 from src.infra.auth.auth import JWTValidatorService
-from src.infra.auth.user_manager import CasdoorUser
 from src.infra.database.session import setup_database
 from src.infra.log import log
 from src.presentation.app import setup_middlewares, setup_routers

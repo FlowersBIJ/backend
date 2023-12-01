@@ -11,6 +11,8 @@ services:
         condition: service_healthy
       alembic:
         condition: service_started
+      casdoor:
+        condition: service_started
 
   database:
     container_name: "database"
@@ -37,6 +39,18 @@ services:
       database:
         condition: service_healthy
 
+  casdoor:
+    container_name: "casdoor"
+    image: casbin/casdoor:latest
+    env_file:
+      - ./deploy/casdoor.env
+    expose:
+      - "8020"
+    volumes:
+      - auth:/var/lib/casdoor/data
+    depends_on:
+      database:
+        condition: service_healthy
 volumes:
   db:
     driver: local

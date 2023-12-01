@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict
+from typing import Dict, Any
 
 from casdoor import AsyncCasdoorSDK, User
 
@@ -9,5 +9,10 @@ class UIAuth(ABC):
         self.sdk = sdk
 
     @abstractmethod
-    async def modify_user(self, method: str, user: User, params=None) -> Dict:
+    async def modify_user(
+            self,
+            method: str,
+            user: User,
+            params: Dict | None = None
+    ) -> Dict:
         raise NotImplementedError
