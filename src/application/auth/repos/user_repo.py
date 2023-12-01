@@ -1,33 +1,11 @@
 from abc import ABC, abstractmethod
+
 from casdoor import AsyncCasdoorSDK, User
 
 
-class BaseAuth:
-    def __init__(self,
-                 endpoint: str,
-                 client_id: str,
-                 client_secret: str,
-                 certificate: str,
-                 org_name: str,
-                 application_name: str,
-                 front_endpoint: str = None) -> None:
-        params = {
-            "endpoint": endpoint,
-            "client_id": client_id,
-            "client_secret": client_secret,
-            "certificate": certificate,
-            "org_name": org_name,
-            "application_name": application_name,
-        }
-        if front_endpoint:
-            params["front_endpoint"] = front_endpoint
-        self.sdk = AsyncCasdoorSDK(**params)
-
-
-class IAuth(ABC, BaseAuth):
-    @abstractmethod
-    async def get_parsed_jwt_token(self, code):
-        raise NotImplementedError
+class UIAuth(ABC):
+    def __init__(self, sdk: AsyncCasdoorSDK):
+        self.sdk = sdk
 
     @abstractmethod
     async def get_auth_link(self, redirect_uri: str, response_type: str = "code", scope: str = "read"):
@@ -37,8 +15,6 @@ class IAuth(ABC, BaseAuth):
     async def refresh_oauth_token(self, refresh_token: str, scope: str = "") -> str:
         raise NotImplementedError
 
-
-class UserInterface(ABC, BaseAuth):
     @abstractmethod
     async def batch_enforce(
             self, permission_model_name: str, permission_rules: list[list[str]]

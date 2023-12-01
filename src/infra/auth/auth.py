@@ -1,10 +1,8 @@
-from casdoor import User
-
-from src.application.auth.interfaces import IAuth, UserInterface
+from src.application.auth.interfaces.auth_interface import JWTValidatorService
 from src.infra.auth.exceptions import BaseAuthError, WrongAuthCode, WrongCredentials
 
 
-class CasdoorAuth(IAuth):
+class CasdoorAuth(JWTValidatorService):
     async def get_parsed_jwt_token(
             self,
             code: str | None = None,
@@ -26,53 +24,3 @@ class CasdoorAuth(IAuth):
                 raise WrongCredentials
         else:
             raise BaseAuthError
-
-    async def get_auth_link(
-            self, redirect_uri: str, response_type: str = "code", scope: str = "read"
-    ) -> str:
-        try:
-            return await self.sdk.get_auth_link(redirect_uri, response_type, scope)
-        except Exception:
-            raise BaseAuthError
-
-    async def refresh_oauth_token(self, refresh_token: str, scope: str = "") -> str:
-        try:
-            return await self.sdk.refresh_oauth_token(refresh_token, scope)
-        except Exception:
-            raise BaseAuthError
-
-
-class CasdoorUser(UserInterface):
-    async def batch_enforce(
-            self, permission_model_name: str, permission_rules: list[list[str]]
-    ) -> list[bool]:
-        try:
-            return await self.sdk.batch_enforce(permission_model_name, permission_rules)
-        except Exception:
-            raise BaseAuthError
-
-    async def enforce(
-            self,
-            permission_model_name: str,
-            sub: str,
-            obj: str,
-            act: str,
-            v3: str | None = None,
-            v4: str | None = None,
-            v5: str | None = None,
-    ) -> bool:
-        try:
-            return await self.sdk.enforce(
-                permission_model_name, sub, obj, act, v3, v4, v5
-            )
-        except Exception:
-            raise BaseAuthError
-
-    async def add_user(self, user: User):
-        return self.sdk.add_user(user)
-
-    async def update_user(self, user: User):
-        return self.sdk.update_user(user)
-
-    async def delete_user(self, user: User):
-        return self.sdk.delete_user(user)
