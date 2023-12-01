@@ -20,7 +20,7 @@ aiohttp = "3.8.5"
 annotated-types = "0.5.0"
 inflection = "^0.5.1"
 python-multipart = "^0.0.6"
-casdoor = "^1.16.0"
+casdoor = "1.17.2"
 isort = "^5.12.0"
 
 
