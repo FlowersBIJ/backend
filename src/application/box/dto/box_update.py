@@ -8,15 +8,15 @@ from src.application.common.dto import DTOUpdate
 
 class BoxUpdate(DTOUpdate):
     invoice_id: uuid.UUID | None = Field(default=None)
-    release_date: date | None  = Field(default=None)
-    
-    box_count: int | None  = Field(default=None)
-    visible: bool | None  = Field(default=None, description="visible or invisible for manager")
-    
-    box_type: str | None  = Field(default=None , description="Is necessary to set at least for one flower")
-    
-    order_id: uuid.UUID | None  = Field(default=None)
-    
+    release_date: date | None = Field(default=None)
+
+    box_count: int | None = Field(default=None, gt=0)
+    visible: bool | None = Field(default=None, description="visible or invisible for manager")
+
+    box_type: str | None = Field(default=None, description="Is necessary to set at least for one flower")
+
+    order_id: uuid.UUID | None = Field(default=None)
+
     @model_validator(mode="before")  # type: ignore
     def check_something_exists(cls, data: Any) -> Any:
         if isinstance(data, dict):

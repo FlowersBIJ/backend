@@ -38,7 +38,7 @@ class IncomeInvoice(Base):
     id: Mapped[uuid.UUID] = mapped_column(
         primary_key=True, default=uuid.uuid4()
     )
-    invoce: Mapped[str] = mapped_column(nullable=False)
+    invoice: Mapped[str] = mapped_column(nullable=False)
     plantation: Mapped[str] = mapped_column(ForeignKey("plantations.plantation_name"), nullable=False)
     
     plant: Mapped[Plantation] = relationship(back_populates="invoices")

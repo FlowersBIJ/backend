@@ -15,9 +15,10 @@ class IncomeInvoiceMutator(ABC):
     async def update(self, invoice_id: uuid.UUID, invoice: IncomeInvoiceUpdate) -> IncomeInvoice:
         raise NotImplementedError
 
-    @abstractmethod
-    async def change_visibility(self, invoice_id: uuid.UUID) -> IncomeInvoice:
-        raise NotImplementedError
+    # The IncomeInvoice doesn't even have the visibility parameter ))0))0
+    # @abstractmethod
+    # async def change_visibility(self, invoice_id: uuid.UUID) -> IncomeInvoice:
+    #     raise NotImplementedError
 
     @abstractmethod
     async def delete(self, invoice_id: uuid.UUID) -> IncomeInvoice:

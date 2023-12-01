@@ -16,7 +16,7 @@ class BoxReader(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_count(self, invisible: bool = False) -> int:
+    async def get_count(self, visible: bool = True) -> int:
         raise NotImplementedError
 
     @abstractmethod

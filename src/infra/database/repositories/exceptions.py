@@ -42,6 +42,18 @@ class EntityUpdateException(ApplicationException, Generic[EntityUpdateType]):
 
 
 @dataclass(eq=False)
+class EntityVisibilityChangeException(ApplicationException, Generic[EntityUpdateType]):
+    entity_id: str
+    entity_type: str
+
+    @property
+    def message(self) -> str:
+        return (
+            f"Can't change the visibility of {self.entity_type} by id: {self.entity_id}"
+        )
+
+
+@dataclass(eq=False)
 class EntityDeleteException(ApplicationException):
     entity_id: str
     entity_type: str

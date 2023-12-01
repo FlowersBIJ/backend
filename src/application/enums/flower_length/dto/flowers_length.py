@@ -10,4 +10,5 @@ class FlowersLength(DataTransferObject):
     flowers_length: list[FlowerLengthDTO]
     total: int | None = None
     offset: int | None = None
+    limit: int | None = None
     visible: bool
