@@ -67,6 +67,7 @@ class Application:
             certificate=config.casdoor.certificate,
             org_name=config.casdoor.org_name,
             application_name=config.api.project_name,
+            front_endpoint=config.casdoor.front_endpoint
         )
         logger.info("Initializing auth finished")
 
