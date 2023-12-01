@@ -1,8 +1,8 @@
-from src.application.auth.interfaces.auth_interface import JWTValidatorService
+from src.application.auth.interfaces.auth_interface import IJWTValidatorService
 from src.infra.auth.exceptions import BaseAuthError, WrongAuthCode, WrongCredentials
 
 
-class CasdoorAuth(JWTValidatorService):
+class JWTValidatorService(IJWTValidatorService):
     async def get_parsed_jwt_token(
             self,
             code: str | None = None,

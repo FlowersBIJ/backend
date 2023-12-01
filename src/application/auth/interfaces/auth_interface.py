@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from casdoor import AsyncCasdoorSDK
 
 
-class JWTValidatorService(ABC):
+class IJWTValidatorService(ABC):
     def __init__(self,
                  endpoint: str,
                  client_id: str,
