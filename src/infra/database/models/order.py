@@ -17,7 +17,7 @@ class OrderType(Base):
     typename: Mapped[str] = mapped_column(primary_key=True)
     visible: Mapped[bool] = mapped_column(default=True, nullable=False)
     
-    orders: Mapped[list["Order"]] = relationship(back_populates="type")
+    #orders: Mapped[list["Order"]] = relationship(back_populates="type")
 
 
 class Order(Base):
@@ -35,10 +35,10 @@ class Order(Base):
     
     visible: Mapped[bool] = mapped_column(default=True, nullable=False)
     
-    order_type: Mapped[str] = mapped_column(ForeignKey("order_types.name"), nullable=False)
+    order_type: Mapped[str] = mapped_column(ForeignKey("order_types.typename"), nullable=False)
     client_name: Mapped[str] = mapped_column(ForeignKey("clients.name"), nullable=False)
     
-    type: Mapped[OrderType] = relationship(back_populates="orders")
-    client: Mapped["Client"] = relationship(back_populates="orders")
-    boxes: Mapped[List["Box"]] = relationship(back_populates="order")
+    #type: Mapped[OrderType] = relationship(back_populates="orders")
+    #client: Mapped["Client"] = relationship(back_populates="orders")
+    #boxes: Mapped[List["Box"]] = relationship(back_populates="order")
     

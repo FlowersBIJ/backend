@@ -19,7 +19,7 @@ class Flower(Base):
     )
     visible: Mapped[bool] = mapped_column(default=True, nullable=False)
 
-    sorts: Mapped[list["FlowerSort"]] = relationship(back_populates="type")
+    #sorts: Mapped[list["FlowerSort"]] = relationship(back_populates="type")
 
 
 class FlowerSort(Base):
@@ -33,8 +33,8 @@ class FlowerSort(Base):
     )
     visible: Mapped[bool] = mapped_column(default=True, nullable=False)
 
-    type: Mapped["Flower"] = relationship(back_populates="sorts")
-    lens: Mapped[list["FlowerLength"]] = relationship(back_populates="sort")
+    #type: Mapped["Flower"] = relationship(back_populates="sorts")
+    #lens: Mapped[list["FlowerLength"]] = relationship(back_populates="sort")
 
 
 class FlowerLength(Base):
@@ -44,8 +44,8 @@ class FlowerLength(Base):
     flower_sort: Mapped[str] = mapped_column(primary_key=True)
     flower_length: Mapped[str] = mapped_column(primary_key=True)
 
-    sort: Mapped[FlowerSort] = relationship(back_populates="lens")
-    flowers: Mapped["FlowerInBox"] = relationship(back_populates="lenght")
+    #sort: Mapped[FlowerSort] = relationship(back_populates="lens")
+    #flowers: Mapped["FlowerInBox"] = relationship(back_populates="lenght")
 
     __table_args__: tuple = (
         ForeignKeyConstraint([flower_name, flower_sort], [FlowerSort.flower_name, FlowerSort.flower_sort]), {})
@@ -90,5 +90,5 @@ class FlowerInBox(Base):
         nullable=False
     )
 
-    box: Mapped["Box"] = relationship(back_populates="flowers")
-    lenght: Mapped[FlowerLength] = relationship(back_populates="flowers")
+    #box: Mapped["Box"] = relationship(back_populates="flowers")
+    #lenght: Mapped[FlowerLength] = relationship(back_populates="flowers")

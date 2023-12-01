@@ -18,7 +18,7 @@ class BoxType(Base):
     typename: Mapped[str] = mapped_column(primary_key=True)
     visible: Mapped[bool] = mapped_column(default=True, nullable=False)
     
-    boxes: Mapped[List["Box"]] = relationship(back_populates="box")
+    #boxes: Mapped[List["Box"]] = relationship(back_populates="box")
 
 
 class Plantation(Base):
@@ -29,7 +29,7 @@ class Plantation(Base):
     )
     visible: Mapped[bool] = mapped_column(default=True, nullable=False)
 
-    invoices: Mapped[list["IncomeInvoice"]] = relationship(back_populates="plant")
+    #invoices: Mapped[list["IncomeInvoice"]] = relationship(back_populates="plant")
    
    
 class IncomeInvoice(Base):
@@ -41,8 +41,8 @@ class IncomeInvoice(Base):
     invoice: Mapped[str] = mapped_column(nullable=False)
     plantation: Mapped[str] = mapped_column(ForeignKey("plantations.plantation_name"), nullable=False)
     
-    plant: Mapped[Plantation] = relationship(back_populates="invoices")
-    boxes: Mapped[list["Box"]] = relationship(back_populates="invoice")
+    #plant: Mapped[Plantation] = relationship(back_populates="invoices")
+    #boxes: Mapped[list["Box"]] = relationship(back_populates="invoice")
     
    
 class Box(Base):
@@ -57,13 +57,13 @@ class Box(Base):
     
     visible: Mapped[bool] = mapped_column(nullable=False, default=True)
     box_type: Mapped[str] = mapped_column(
-        ForeignKey("box_types.name"), nullable=True
+        ForeignKey("box_types.typename"), nullable=True
     )
     order_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("orders.id"), nullable=False)
     invoice_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("income_invoices.id"), nullable=True)
     
-    flowers: Mapped[List["FlowerInBox"]] = relationship(back_populates="box")
-    box: Mapped[BoxType] = relationship(back_populates="boxes")
-    invoice: Mapped[IncomeInvoice] = relationship(back_populates="boxes")
-    order: Mapped["Order"] = relationship(back_populates="boxes")
+    #flowers: Mapped[List["FlowerInBox"]] = relationship(back_populates="box")
+    #box: Mapped[BoxType] = relationship(back_populates="boxes")
+    #invoice: Mapped[IncomeInvoice] = relationship(back_populates="boxes")
+    #order: Mapped["Order"] = relationship(back_populates="boxes")
    
