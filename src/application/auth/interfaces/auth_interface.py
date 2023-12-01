@@ -24,5 +24,5 @@ class IJWTValidatorService(ABC):
         self.sdk = AsyncCasdoorSDK(**params)
 
     @abstractmethod
-    async def get_parsed_jwt_token(self, code):
+    async def parse_jwt(self, code):
         raise NotImplementedError
