@@ -25,7 +25,7 @@ def log(
             structlog.stdlib.PositionalArgumentsFormatter(),
             timestamper,
             structlog.processors.UnicodeDecoder(),
-            structlog.processors.JSONRenderer()
+            structlog.processors.KeyValueRenderer()
         ],
         wrapper_class=structlog.stdlib.BoundLogger,
         logger_factory=structlog.stdlib.LoggerFactory(),

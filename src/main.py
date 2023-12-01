@@ -27,11 +27,11 @@ def main() -> None:
         exit(0)
     except SystemExit:
         exit(0)
-    except ApplicationException:
-        exit(70)
-    except BaseException:
-        logger.exception("Unexpected error occured")
-        exit(70)
+    # except ApplicationException:
+    #     exit(70)
+    # except BaseException:
+    #     logger.exception("Unexpected error occured")
+    #     exit(70)
 
 
 if __name__ == "__main__":
