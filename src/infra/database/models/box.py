@@ -1,6 +1,6 @@
 import uuid
 from datetime import date
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -18,7 +18,7 @@ class BoxType(Base):
     typename: Mapped[str] = mapped_column(primary_key=True)
     visible: Mapped[bool] = mapped_column(default=True, nullable=False)
     
-    boxes: Mapped[list["Box"]] = relationship(back_populates="box")
+    boxes: Mapped[List["Box"]] = relationship(back_populates="box")
 
 
 class Plantation(Base):
@@ -62,8 +62,8 @@ class Box(Base):
     order_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("orders.id"), nullable=False)
     invoice_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("income_invoices.id"), nullable=True)
     
-    flowers: Mapped[list[FlowerInBox]] = relationship(back_populates="box")
+    flowers: Mapped[List["FlowerInBox"]] = relationship(back_populates="box")
     box: Mapped[BoxType] = relationship(back_populates="boxes")
     invoice: Mapped[IncomeInvoice] = relationship(back_populates="boxes")
-    order: Mapped[Order] = relationship(back_populates="boxes")
+    order: Mapped["Order"] = relationship(back_populates="boxes")
    

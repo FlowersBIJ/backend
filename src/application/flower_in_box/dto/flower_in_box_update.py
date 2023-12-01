@@ -1,7 +1,7 @@
 import uuid
 from datetime import date
 from typing import Any
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from src.application.common.dto import DTOUpdate
 

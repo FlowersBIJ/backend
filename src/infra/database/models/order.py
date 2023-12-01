@@ -1,5 +1,5 @@
 import uuid
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -39,6 +39,6 @@ class Order(Base):
     client_name: Mapped[str] = mapped_column(ForeignKey("clients.name"), nullable=False)
     
     type: Mapped[OrderType] = relationship(back_populates="orders")
-    client: Mapped[Client] = relationship(back_populates="orders")
-    boxes: Mapped[list[Box]] = relationship(back_populates="order")
+    client: Mapped["Client"] = relationship(back_populates="orders")
+    boxes: Mapped[List["Box"]] = relationship(back_populates="order")
     

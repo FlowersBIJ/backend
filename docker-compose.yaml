@@ -24,9 +24,30 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      db_net:
+        aliases:
+          - database
 
+  migrate:
+    container_name: "migrate"
+    image: "migrate/migrate:latest"
+    networks:
+      - db_net
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      - ./${MIGRATIONS_ROOT}:/migrations
+    command:
+      ["-path", "/migrations", "-database",  "${POSTGRES_DSN}", "up"]
+    links:
+      - database
   
 
 volumes:
   db:
     driver: local
+
+networks:
+  db_net:
