@@ -1,5 +1,7 @@
 import uuid
 
+from pydantic import ConfigDict
+
 from src.application.common.dto import DataTransferObject
 
 
@@ -15,3 +17,6 @@ class Order(DataTransferObject):
     
     order_type: str
     client_name: str
+    
+    model_config = ConfigDict(from_attributes=True)
+    

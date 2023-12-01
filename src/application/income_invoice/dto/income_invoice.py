@@ -1,5 +1,7 @@
 import uuid
 
+from pydantic import ConfigDict
+
 from src.application.common.dto import DataTransferObject
 
 
@@ -8,4 +10,6 @@ class IncomeInvoice(DataTransferObject):
     
     invoice: str
     plantation: str
+    
+    model_config = ConfigDict(from_attributes=True)
     

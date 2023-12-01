@@ -1,7 +1,7 @@
 import uuid
 from datetime import date
 
-from pydantic import Field
+from pydantic import Field, ConfigDict
 
 from src.application.common.dto import DataTransferObject
 
@@ -19,4 +19,6 @@ class FlowerInBox(DataTransferObject):
     flower_name: str
     flower_sort: str
     flower_length: str
+    
+    model_config = ConfigDict(from_attributes=True)
     
