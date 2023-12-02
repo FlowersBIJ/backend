@@ -4,6 +4,8 @@ services:
     build: .
     environment:
       SETTINGS: deploy/backend
+    networks:
+      - db_net
     ports:
       - "8000:8000"
     depends_on:

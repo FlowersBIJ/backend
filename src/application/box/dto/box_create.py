@@ -11,7 +11,7 @@ class BoxCreate(DTOCreate):
     release_date: date | None = Field(default=None)
 
     box_count: int = Field(gt=0)
-    visible: bool = Field(default=False, description="visible or invisible for manager")
+    visible: bool = Field(default=True, description="visible or invisible for manager")
 
     box_type: str = Field(description="Is necessary to set at least for one flower")
 

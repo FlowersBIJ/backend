@@ -7,7 +7,7 @@ class ClientCreate(DTOCreate):
     client_name: str
     alternative_name: str
 
-    visible: bool = Field(default=False, description="visible or invisible for manager")
+    visible: bool = Field(default=True, description="visible or invisible for manager")
 
     country: str
     city: str
