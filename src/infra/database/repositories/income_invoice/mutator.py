@@ -13,7 +13,7 @@ from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import (
     EntityCreateException,
     EntityNotFoundException,
-    EntityDeleteException, EntityUpdateException,
+    EntityDeleteException, EntityUpdateException, EntityVisibilityChangeException,
 )
 
 
@@ -68,6 +68,25 @@ class Mutator(BaseRepo, IncomeInvoiceMutator):
         except IntegrityError:
             await self.db.rollback()
             raise EntityUpdateException(invoice)
+
+    async def change_visibility(self, invoice_id: uuid.UUID) -> IncomeInvoice:
+        invoice_db = await self.db.get(IncomeInvoiceDB, invoice_id)
+
+        if invoice_db is None:
+            raise EntityNotFoundException(str(invoice_id), "IncomveInvoice")
+
+        invoice_db.visible = not invoice_db.visible
+
+        try:
+            await self.db.flush()
+            await self.db.refresh(invoice_db)
+
+            invoice_dto = IncomeInvoice.model_validate(invoice_db)
+            return invoice_dto
+
+        except IntegrityError:
+            await self.db.rollback()
+            raise EntityVisibilityChangeException(str(invoice_id), "IncomeInvoice")
 
     async def commit(self) -> None:
         await self.db.commit()
