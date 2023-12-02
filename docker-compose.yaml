@@ -4,23 +4,19 @@ services:
     build: .
     environment:
       SETTINGS: deploy/backend
-    expose:
-      - "8000"
+    ports:
+      - "8000:8000"
     depends_on:
       database:
         condition: service_healthy
-      alembic:
-        condition: service_started
-      casdoor:
-        condition: service_started
 
   database:
     container_name: "database"
     image: postgres:15-alpine3.18
     env_file:
       - ./deploy/postgres.env
-    expose:
-      - "5432"
+    ports:
+      - "5432:5432"
     volumes:
       - db:/var/lib/postgresql/data
     healthcheck:
@@ -28,29 +24,30 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      db_net:
+        aliases:
+          - database
 
-  alembic:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: development
-    command: [ "alembic", "upgrade", "head" ]
+  migrate:
+    container_name: "migrate"
+    image: "migrate/migrate:latest"
+    networks:
+      - db_net
     depends_on:
       database:
         condition: service_healthy
-
-  casdoor:
-    container_name: "casdoor"
-    image: casbin/casdoor:latest
-    env_file:
-      - ./deploy/casdoor.env
-    expose:
-      - "8020"
     volumes:
-      - ./var/lib/casdoor/data
-    depends_on:
-      database:
-        condition: service_healthy
+      - ./${MIGRATIONS_ROOT}:/migrations
+    command:
+      ["-path", "/migrations", "-database",  "${POSTGRES_DSN}", "up"]
+    links:
+      - database
+  
+
 volumes:
   db:
     driver: local
+
+networks:
+  db_net:

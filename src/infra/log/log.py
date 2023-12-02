@@ -1,7 +1,6 @@
+import structlog
 import logging
 import sys
-
-import structlog
 
 log_levels = {
     "NOTSET": 0,
@@ -9,12 +8,12 @@ log_levels = {
     "INFO": 20,
     "WARNING": 30,
     "ERROR": 40,
-    "CRITICAL": 50,
+    "CRITICAL": 50
 }
 
 
 def log(
-    level: str = "INFO",
+        level: str = "INFO",
 ) -> structlog.stdlib.BoundLogger:
     """Get logger configured to output JSON lines to stdout"""
     timestamper = structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S", utc=False)
@@ -26,7 +25,7 @@ def log(
             structlog.stdlib.PositionalArgumentsFormatter(),
             timestamper,
             structlog.processors.UnicodeDecoder(),
-            structlog.processors.JSONRenderer(),
+            structlog.processors.KeyValueRenderer()
         ],
         wrapper_class=structlog.stdlib.BoundLogger,
         logger_factory=structlog.stdlib.LoggerFactory(),

@@ -96,10 +96,10 @@ class Application:
                     port=int(self._config.api.port),
                 )
             )
-            logger_access = logging.getLogger("uvicorn.access")
-            logger_access.disabled = True
-            logger_errors = logging.getLogger("uvicorn.error")
-            logger_errors.disabled = True
+            # logger_access = logging.getLogger("uvicorn.access")
+            # logger_access.disabled = True
+            # logger_errors = logging.getLogger("uvicorn.error")
+            # logger_errors.disabled = True
 
             await server.serve()
         except asyncio.CancelledError:
