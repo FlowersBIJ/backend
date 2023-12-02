@@ -38,8 +38,8 @@ class Client(Base):
     country: Mapped[str] = mapped_column(nullable=False)
     city: Mapped[str] = mapped_column(nullable=True)
 
-    agencie: Mapped[str] = mapped_column(ForeignKey("agencie.agencie_name"), nullable=True)
-    truck: Mapped[str] = mapped_column(ForeignKey("truck.truck_name"), nullable=True)
+    agencie: Mapped[str] = mapped_column(ForeignKey("agencies.agencie_name"), nullable=True)
+    truck: Mapped[str] = mapped_column(ForeignKey("trucks.truck_name"), nullable=True)
 
     #ag: Mapped[Agencie] = relationship(back_populates="clients")
     #tr: Mapped[Truck] = relationship(back_populates="clients")

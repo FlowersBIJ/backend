@@ -41,6 +41,8 @@ class IncomeInvoice(Base):
     invoice: Mapped[str] = mapped_column(nullable=False)
     plantation: Mapped[str] = mapped_column(ForeignKey("plantations.plantation_name"), nullable=False)
     
+    visible: Mapped[bool] = mapped_column(default=True, nullable=False)
+    
     #plant: Mapped[Plantation] = relationship(back_populates="invoices")
     #boxes: Mapped[list["Box"]] = relationship(back_populates="invoice")
     

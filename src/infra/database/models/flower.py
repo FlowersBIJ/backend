@@ -26,7 +26,7 @@ class FlowerSort(Base):
     __tablename__ = "flower_sorts"
 
     flower_name: Mapped[str] = mapped_column(
-        ForeignKey("flower_types.flower_name"), primary_key=True
+        ForeignKey("flowers.flower_name"), primary_key=True
     )
     flower_sort: Mapped[str] = mapped_column(
         primary_key=True
@@ -43,6 +43,8 @@ class FlowerLength(Base):
     flower_name: Mapped[str] = mapped_column(primary_key=True)
     flower_sort: Mapped[str] = mapped_column(primary_key=True)
     flower_length: Mapped[str] = mapped_column(primary_key=True)
+
+    visible: Mapped[bool] = mapped_column(default=True, nullable=False)
 
     #sort: Mapped[FlowerSort] = relationship(back_populates="lens")
     #flowers: Mapped["FlowerInBox"] = relationship(back_populates="lenght")
@@ -66,19 +68,19 @@ class FlowerInBox(Base):
     stems: Mapped[int] = mapped_column(
         nullable=False
     )
-    income_price_per_stem: Mapped[float] = mapped_column(
+    income_price: Mapped[float] = mapped_column(
         nullable=False
     )
-    outcome_price_per_stem: Mapped[float] = mapped_column(
+    outcome_price: Mapped[float] = mapped_column(
         nullable=True
     )
-    hotline_miami_price_per_stem: Mapped[float] = mapped_column(
+    hotline_miami_price: Mapped[float] = mapped_column(
         nullable=True
     )
 
     visible: Mapped[bool] = mapped_column(nullable=False, default=True)
 
-    box_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("box.id"), nullable=False)
+    box_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("boxes.id"), nullable=False)
 
     flower_name: Mapped[str] = mapped_column(
         nullable=False

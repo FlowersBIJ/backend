@@ -36,7 +36,7 @@ class Order(Base):
     visible: Mapped[bool] = mapped_column(default=True, nullable=False)
     
     order_type: Mapped[str] = mapped_column(ForeignKey("order_types.typename"), nullable=False)
-    client_name: Mapped[str] = mapped_column(ForeignKey("clients.name"), nullable=False)
+    client_name: Mapped[str] = mapped_column(ForeignKey("clients.client_name"), nullable=False)
     
     #type: Mapped[OrderType] = relationship(back_populates="orders")
     #client: Mapped["Client"] = relationship(back_populates="orders")

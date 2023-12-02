@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS income_invoices (
     id uuid DEFAULT uuid_generate_v4(),
     invoice VARCHAR NOT NULL,
     plantation VARCHAR NOT NULL,
+    visible BOOLEAN NOT NULL DEFAULT true,
     PRIMARY KEY(id),
     FOREIGN KEY(plantation) REFERENCES plantations(plantation_name)
 );
