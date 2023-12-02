@@ -47,6 +47,18 @@ services:
       - database
   
 
+  casdoor:
+    container_name: "casdoor"
+    image: casbin/casdoor:latest
+    env_file:
+      - ./deploy/casdoor.env
+    expose:
+      - "8020"
+    volumes:
+      - ./var/lib/casdoor/data
+    depends_on:
+      database:
+        condition: service_healthy
 volumes:
   db:
     driver: local
