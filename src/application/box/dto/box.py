@@ -1,7 +1,7 @@
 import uuid
 from datetime import date
 
-from pydantic import Field
+from pydantic import Field, ConfigDict
 
 from src.application.common.dto import DataTransferObject
 
@@ -18,3 +18,6 @@ class Box(DataTransferObject):
     box_type: str = Field(description="Is necessary to set at least for one flower")
 
     order_id: uuid.UUID
+
+    model_config = ConfigDict(from_attributes=True)
+    

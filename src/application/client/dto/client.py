@@ -1,4 +1,4 @@
-from pydantic import Field
+from pydantic import Field, ConfigDict
 
 from src.application.common.dto import DataTransferObject
 
@@ -14,3 +14,5 @@ class Client(DataTransferObject):
 
     agencie: str
     truck: str
+    
+    model_config = ConfigDict(from_attributes=True)

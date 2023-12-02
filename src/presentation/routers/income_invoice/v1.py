@@ -33,6 +33,24 @@ async def create_income_invoice(
     return created_income_invoice
 
 
+@income_invoices.put(
+    path="/change_visibility/{invoice_id}",
+    responses={
+        status.HTTP_200_OK: {"model": IncomeInvoice},
+        status.HTTP_422_UNPROCESSABLE_ENTITY: {"model": str},
+        status.HTTP_404_NOT_FOUND: {"model": str},
+    },
+)
+async def change_visibility_income_invoice(
+        invoice_id: uuid.UUID,
+        session: Annotated[AsyncSession, Depends(get_session)],
+):
+    mutator = Mutator(session)
+    updated_invoice = await mutator.change_visibility(invoice_id=invoice_id)
+    await mutator.commit()
+    return updated_invoice
+
+
 @income_invoices.delete(
     path="/delete/{invoice_id}",
     responses={

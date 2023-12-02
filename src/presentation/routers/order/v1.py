@@ -133,7 +133,7 @@ async def get_orders(
         status.HTTP_200_OK: {"model": bool},
     },
 )
-async def order_exists_by_name(
+async def order_exists_by_id(
         order_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)

@@ -15,7 +15,7 @@ class Agencie(Base):
     agencie_name: Mapped[str] = mapped_column(primary_key=True)
     visible: Mapped[bool] = mapped_column(default=True, nullable=False)
 
-    clients: Mapped[list["Client"]] = relationship(back_populates="ag")
+    #clients: Mapped[list["Client"]] = relationship(back_populates="ag")
 
 
 class Truck(Base):
@@ -24,7 +24,7 @@ class Truck(Base):
     truck_name: Mapped[str] = mapped_column(primary_key=True)
     visible: Mapped[bool] = mapped_column(default=True, nullable=False)
 
-    clients: Mapped[list["Client"]] = relationship(back_populates="tr")
+    #clients: Mapped[list["Client"]] = relationship(back_populates="tr")
 
 
 class Client(Base):
@@ -38,9 +38,9 @@ class Client(Base):
     country: Mapped[str] = mapped_column(nullable=False)
     city: Mapped[str] = mapped_column(nullable=True)
 
-    agencie: Mapped[str] = mapped_column(ForeignKey("agencie.name"), nullable=True)
-    truck: Mapped[str] = mapped_column(ForeignKey("truck.name"), nullable=True)
+    agencie: Mapped[str] = mapped_column(ForeignKey("agencies.agencie_name"), nullable=True)
+    truck: Mapped[str] = mapped_column(ForeignKey("trucks.truck_name"), nullable=True)
 
-    ag: Mapped[Agencie] = relationship(back_populates="clients")
-    tr: Mapped[Truck] = relationship(back_populates="clients")
-    orders: Mapped[List["Order"]] = relationship(back_populates="client")
+    #ag: Mapped[Agencie] = relationship(back_populates="clients")
+    #tr: Mapped[Truck] = relationship(back_populates="clients")
+    #orders: Mapped[List["Order"]] = relationship(back_populates="client")
