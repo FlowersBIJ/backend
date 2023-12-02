@@ -47,7 +47,7 @@ services:
     expose:
       - "8020"
     volumes:
-      - auth:/var/lib/casdoor/data
+      - ./var/lib/casdoor/data
     depends_on:
       database:
         condition: service_healthy
