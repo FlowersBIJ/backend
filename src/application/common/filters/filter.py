@@ -11,5 +11,5 @@ class OrderFilter(Enum):
 class Filters(DataTransferObject):
     offset: int | None = None
     limit: int | None = None
-    visible: bool | None = None
+    visible: bool
     order: OrderFilter = OrderFilter.ASC

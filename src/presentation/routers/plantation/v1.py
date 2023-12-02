@@ -24,7 +24,8 @@ plantations = APIRouter(prefix="/plantations", tags=["plantations"])
     },
 )
 async def create_plantation(
-    plantation_create: PlantationCreate, session: Annotated[AsyncSession, Depends(get_session)]
+    plantation_create: PlantationCreate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     created_plantation = await mutator.add(plantation_create)
@@ -59,13 +60,11 @@ async def change_visibility_plantation(
     },
 )
 async def delete_plantation(
-        plantation: PlantationUpdate,
-        session: Annotated[AsyncSession, Depends(get_session)]
+    plantation: PlantationUpdate, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     mutator = Mutator(session)
-    deleted_plantation = await mutator.delete(plantation=plantation)
+    await mutator.delete(plantation=plantation)
     await mutator.commit()
-    return deleted_plantation
 
 
 @plantations.get(

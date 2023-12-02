@@ -5,13 +5,16 @@ from src.application.common.entity_mutator import mutate_entity
 from src.application.enums.order_type.dto.order_type import OrderType
 from src.application.enums.order_type.dto.order_type_create import OrderTypeCreate
 from src.application.enums.order_type.dto.order_type_update import OrderTypeUpdate
-from src.application.enums.order_type.interfaces.order_type_mutator import OrderTypeMutator
+from src.application.enums.order_type.interfaces.order_type_mutator import (
+    OrderTypeMutator,
+)
 from src.infra.database.models.order import OrderType as OrderTypeDB
 from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import (
     EntityCreateException,
     EntityNotFoundException,
-    EntityDeleteException, EntityVisibilityChangeException,
+    EntityDeleteException,
+    EntityVisibilityChangeException,
 )
 
 
@@ -34,7 +37,7 @@ class Mutator(BaseRepo, OrderTypeMutator):
             await self.db.rollback()
             raise EntityCreateException(order_type)
 
-    async def delete(self, order: OrderTypeUpdate) -> OrderType:
+    async def delete(self, order: OrderTypeUpdate) -> None:
         order_type_db = await self.db.get(OrderTypeDB, order.typename)
 
         if order_type_db is None:

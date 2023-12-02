@@ -21,4 +21,3 @@ class OrderTypeReader(ABC):
     @abstractmethod
     async def check_exists_by_name(self, typename: str) -> bool:
         raise NotImplementedError
-    

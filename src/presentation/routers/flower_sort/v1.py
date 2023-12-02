@@ -24,7 +24,8 @@ flowers_sort = APIRouter(prefix="/flower_sorts", tags=["flower_sorts"])
     },
 )
 async def create_flower_sort(
-        flower_sort_create: FlowerSortCreate, session: Annotated[AsyncSession, Depends(get_session)]
+    flower_sort_create: FlowerSortCreate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     created_flower_sort = await mutator.add(flower_sort_create)
@@ -41,8 +42,8 @@ async def create_flower_sort(
     },
 )
 async def change_visibility_flower_sort(
-        flower_sort: FlowerSortUpdate,
-        session: Annotated[AsyncSession, Depends(get_session)],
+    flower_sort: FlowerSortUpdate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     updated_flower_sort = await mutator.change_visibility(flower_sort)
@@ -59,13 +60,12 @@ async def change_visibility_flower_sort(
     },
 )
 async def delete_flower_sort(
-        flower_sort: FlowerSortUpdate,
-        session: Annotated[AsyncSession, Depends(get_session)]
+    flower_sort: FlowerSortUpdate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
-    deleted_flower_sort = await mutator.delete(flower_sort)
+    await mutator.delete(flower_sort)
     await mutator.commit()
-    return deleted_flower_sort
 
 
 @flowers_sort.get(
@@ -76,19 +76,20 @@ async def delete_flower_sort(
     },
 )
 async def get_flower_sorts_by_name(
-        flower_name: str, session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
+    flower_name: str,
+    session: Annotated[AsyncSession, Depends(get_session)],
+    filters: Filters = Depends(),
 ):
     reader = Reader(session)
     flowers_sorts = await reader.get_by_flower_name(
-        flower_name=flower_name,
-        filters=filters
+        flower_name=flower_name, filters=filters
     )
     return flowers_sorts
 
 
 @flowers_sort.get(path="/count", responses={status.HTTP_200_OK: {"model": int}})
 async def get_flower_sorts_count(
-        session: Annotated[AsyncSession, Depends(get_session)]
+    session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
     count = await reader.get_count()
@@ -103,7 +104,7 @@ async def get_flower_sorts_count(
     },
 )
 async def get_flowers_sorts(
-        session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
+    session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
 ):
     reader = Reader(session)
     filtered_flower_sorts = await reader.get_all(filters=filters)
@@ -117,7 +118,7 @@ async def get_flowers_sorts(
     },
 )
 async def flower_sort_exists_by_name(
-        flower_sort: FlowerSort, session: Annotated[AsyncSession, Depends(get_session)]
+    flower_sort: FlowerSort, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
     exists = await reader.check_exists_by_sort(flower_sort)

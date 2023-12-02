@@ -3,16 +3,23 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.application.common.entity_mutator import mutate_entity
 from src.application.enums.flower_length.dto.flower_length import FlowerLength
-from src.application.enums.flower_length.dto.flower_length_create import FlowerLengthCreate
-from src.application.enums.flower_length.dto.flower_length_update import FlowerLengthUpdate
-from src.application.enums.flower_length.interfaces.flower_length_mutator import FlowerLengthMutator
+from src.application.enums.flower_length.dto.flower_length_create import (
+    FlowerLengthCreate,
+)
+from src.application.enums.flower_length.dto.flower_length_update import (
+    FlowerLengthUpdate,
+)
+from src.application.enums.flower_length.interfaces.flower_length_mutator import (
+    FlowerLengthMutator,
+)
 
 from src.infra.database.models.flower import FlowerLength as FlowerLengthDB
 from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import (
     EntityCreateException,
     EntityNotFoundException,
-    EntityDeleteException, EntityVisibilityChangeException,
+    EntityDeleteException,
+    EntityVisibilityChangeException,
 )
 
 
@@ -35,8 +42,10 @@ class Mutator(BaseRepo, FlowerLengthMutator):
             await self.db.rollback()
             raise EntityCreateException(flower)
 
-    async def delete(self, flower_length: FlowerLengthUpdate) -> FlowerLength:
-        flower_db = await self.db.get(FlowerLengthDB, (flower_length.flower_name, flower_length.flower_length))
+    async def delete(self, flower_length: FlowerLengthUpdate) -> None:
+        flower_db = await self.db.get(
+            FlowerLengthDB, (flower_length.flower_name, flower_length.flower_length)
+        )
 
         if flower_db is None:
             raise EntityNotFoundException(flower_length.flower_name, "FlowerLength")
@@ -49,7 +58,9 @@ class Mutator(BaseRepo, FlowerLengthMutator):
             await self.db.rollback()
             raise EntityDeleteException(flower_length.flower_name, "FlowerLength")
 
-    async def change_visibility(self, flower_length: FlowerLengthUpdate) -> FlowerLength:
+    async def change_visibility(
+        self, flower_length: FlowerLengthUpdate
+    ) -> FlowerLength:
         flower_db = await self.db.get(FlowerLengthDB, flower_length.flower_name)
 
         if flower_db is None:
@@ -66,7 +77,9 @@ class Mutator(BaseRepo, FlowerLengthMutator):
 
         except IntegrityError:
             await self.db.rollback()
-            raise EntityVisibilityChangeException(flower_length.flower_name, "FlowerLength")
+            raise EntityVisibilityChangeException(
+                flower_length.flower_name, "FlowerLength"
+            )
 
     async def commit(self) -> None:
         await self.db.commit()

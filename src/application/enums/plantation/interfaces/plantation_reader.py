@@ -21,4 +21,3 @@ class PlantationReader(ABC):
     @abstractmethod
     async def check_exists_by_name(self, plantation_name: str) -> bool:
         raise NotImplementedError
-    

@@ -24,7 +24,6 @@ from src.presentation.routers.truck.v1 import trucks
 def configure_routers(
     app: FastAPI, prefix: str, auth_enabled: bool, routers: list[APIRouter]
 ):
-
     # DEPENDENCIES = [Depends(has_access)]
     DEPENDENCIES: Any = []
     for router in routers:
@@ -55,7 +54,7 @@ def setup_routers(app: FastAPI, prefix: str) -> None:
             orders,
             order_types,
             plantations,
-            trucks
+            trucks,
         ],
     )
 
@@ -64,6 +63,4 @@ def setup_routers(app: FastAPI, prefix: str) -> None:
 
 def setup_middlewares(app: FastAPI) -> None:
     logging_middleware = LoggingMiddleware(logger=log())
-    app.add_middleware(
-        BaseHTTPMiddleware, dispatch=logging_middleware
-    )
+    app.add_middleware(BaseHTTPMiddleware, dispatch=logging_middleware)

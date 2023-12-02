@@ -17,4 +17,3 @@ class AgencieMutator(ABC):
     @abstractmethod
     async def delete(self, agencie: AgencieUpdate) -> None:
         raise NotImplementedError
-    

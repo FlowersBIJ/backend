@@ -7,7 +7,9 @@ from src.application.enums.flower_sort.dto.flowers_sorts import FlowersSorts
 
 class FlowerSortReader(ABC):
     @abstractmethod
-    async def get_by_flower_name(self, flower_name: str, filters: Filters) -> FlowersSorts:
+    async def get_by_flower_name(
+        self, flower_name: str, filters: Filters
+    ) -> FlowersSorts:
         raise NotImplementedError
 
     @abstractmethod
@@ -17,8 +19,7 @@ class FlowerSortReader(ABC):
     @abstractmethod
     async def get_count(self, visible: bool | None = None) -> int:
         raise NotImplementedError
-    
+
     @abstractmethod
     async def check_exists_by_sort(self, sort: FlowerSort) -> bool:
         raise NotImplementedError
-    

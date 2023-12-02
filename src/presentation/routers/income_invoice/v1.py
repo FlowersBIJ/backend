@@ -25,7 +25,8 @@ income_invoices = APIRouter(prefix="/income_invoices", tags=["income_invoices"])
     },
 )
 async def create_income_invoice(
-        income_invoice_create: IncomeInvoiceCreate, session: Annotated[AsyncSession, Depends(get_session)]
+    income_invoice_create: IncomeInvoiceCreate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     created_income_invoice = await mutator.add(income_invoice_create)
@@ -42,8 +43,8 @@ async def create_income_invoice(
     },
 )
 async def change_visibility_income_invoice(
-        invoice_id: uuid.UUID,
-        session: Annotated[AsyncSession, Depends(get_session)],
+    invoice_id: uuid.UUID,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     updated_invoice = await mutator.change_visibility(invoice_id=invoice_id)
@@ -60,13 +61,11 @@ async def change_visibility_income_invoice(
     },
 )
 async def delete_income_invoice(
-        invoice_id: uuid.UUID,
-        session: Annotated[AsyncSession, Depends(get_session)]
+    invoice_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     mutator = Mutator(session)
-    deleted_income_invoice = await mutator.delete(invoice_id=invoice_id)
+    await mutator.delete(invoice_id=invoice_id)
     await mutator.commit()
-    return deleted_income_invoice
 
 
 @income_invoices.put(
@@ -78,14 +77,13 @@ async def delete_income_invoice(
     },
 )
 async def update_income_invoice(
-        invoice_id: uuid.UUID,
-        income_invoice_update: IncomeInvoiceUpdate,
-        session: Annotated[AsyncSession, Depends(get_session)],
+    invoice_id: uuid.UUID,
+    income_invoice_update: IncomeInvoiceUpdate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     updated_scheme = await mutator.update(
-        invoice_id=invoice_id,
-        invoice=income_invoice_update
+        invoice_id=invoice_id, invoice=income_invoice_update
     )
     await mutator.commit()
     return updated_scheme
@@ -99,7 +97,7 @@ async def update_income_invoice(
     },
 )
 async def get_income_invoice(
-        invoice_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
+    invoice_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
     income_invoice = await reader.get_by_id(invoice_id=invoice_id)
@@ -108,7 +106,7 @@ async def get_income_invoice(
 
 @income_invoices.get(path="/count", responses={status.HTTP_200_OK: {"model": int}})
 async def get_income_invoices_count(
-        session: Annotated[AsyncSession, Depends(get_session)],
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     reader = Reader(session)
     count = await reader.get_count()
@@ -123,7 +121,7 @@ async def get_income_invoices_count(
     },
 )
 async def get_income_invoices(
-        session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
+    session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
 ):
     reader = Reader(session)
     filtered_income_invoices = await reader.get_invoices(filters=filters)
@@ -137,7 +135,7 @@ async def get_income_invoices(
     },
 )
 async def income_invoice_exists_by_id(
-        invoice_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
+    invoice_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
     exists = await reader.check_exists_by_id(invoice_id)

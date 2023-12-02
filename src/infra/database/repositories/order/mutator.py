@@ -13,7 +13,9 @@ from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import (
     EntityCreateException,
     EntityNotFoundException,
-    EntityDeleteException, EntityVisibilityChangeException, EntityUpdateException,
+    EntityDeleteException,
+    EntityVisibilityChangeException,
+    EntityUpdateException,
 )
 
 
@@ -55,7 +57,7 @@ class Mutator(BaseRepo, OrderMutator):
             await self.db.rollback()
             raise EntityUpdateException(order)
 
-    async def delete(self, order_id: uuid.UUID) -> Order:
+    async def delete(self, order_id: uuid.UUID) -> None:
         order_db = await self.db.get(OrderDB, order_id)
 
         if order_db is None:
@@ -86,7 +88,7 @@ class Mutator(BaseRepo, OrderMutator):
 
         except IntegrityError:
             await self.db.rollback()
-            raise EntityVisibilityChangeException(order_id, "Order")
+            raise EntityVisibilityChangeException(str(order_id), "Order")
 
     async def commit(self) -> None:
         await self.db.commit()

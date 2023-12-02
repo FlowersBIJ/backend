@@ -7,7 +7,7 @@ BoxDTO = Box | BoxCreate | BoxUpdate
 
 
 class Boxes(DataTransferObject):
-    boxes: list[BoxDTO]
+    boxes: list[Box]
     total: int
     offset: int | None = None
     limit: int | None = None

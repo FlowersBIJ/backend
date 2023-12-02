@@ -8,7 +8,7 @@ class IncomeInvoiceUpdate(DTOUpdate):
     invoice: str | None = Field(default=None)
     plantation: str | None = Field(default=None)
     visible: bool | None = Field(default=None)
-    
+
     @model_validator(mode="before")  # type: ignore
     def check_something_exists(cls, data: Any) -> Any:
         if isinstance(data, dict):

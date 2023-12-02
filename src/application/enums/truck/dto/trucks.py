@@ -7,9 +7,8 @@ TruckDTO = Truck | TruckCreate | TruckUpdate
 
 
 class Trucks(DataTransferObject):
-    trucks: list[TruckDTO]
+    trucks: list[Truck]
     total: int | None = None
     offset: int | None = None
     limit: int | None = None
     visible: bool | None
-    

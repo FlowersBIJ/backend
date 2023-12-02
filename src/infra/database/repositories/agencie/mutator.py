@@ -11,7 +11,8 @@ from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import (
     EntityCreateException,
     EntityNotFoundException,
-    EntityDeleteException, EntityVisibilityChangeException,
+    EntityDeleteException,
+    EntityVisibilityChangeException,
 )
 
 
@@ -34,7 +35,7 @@ class Mutator(BaseRepo, AgencieMutator):
             await self.db.rollback()
             raise EntityCreateException(agencie)
 
-    async def delete(self, agencie: AgencieUpdate) -> Agencie:
+    async def delete(self, agencie: AgencieUpdate) -> None:
         agencie_db = await self.db.get(AgencieDB, agencie.agencie_name)
 
         if agencie_db is None:

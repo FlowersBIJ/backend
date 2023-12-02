@@ -28,9 +28,7 @@ class Application:
     async def from_config(cls, settings_path: str) -> "Application":
         config = Dynaconf(
             envvar_prefix="DYNACONF",
-            settings_files=[
-                settings_path + "/settings.toml"
-            ],
+            settings_files=[settings_path + "/settings.toml"],
         )
 
         logger = log(level=config.log.level)
@@ -60,9 +58,7 @@ class Application:
 
         logger.info("Creating application")
         application = Application(
-            config=config,
-            app=app,
-            sqlalchemy_engine=sqlalchemy_engine
+            config=config, app=app, sqlalchemy_engine=sqlalchemy_engine
         )
 
         logger.info("Initializing application finished")
@@ -81,7 +77,7 @@ class Application:
                 config=uvicorn.Config(
                     app=self._app,
                     host=self._config.api.host,
-                    port=int(self._config.api.port)
+                    port=int(self._config.api.port),
                 )
             )
             # logger_access = logging.getLogger("uvicorn.access")

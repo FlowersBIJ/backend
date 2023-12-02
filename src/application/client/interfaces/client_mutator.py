@@ -19,5 +19,5 @@ class ClientMutator(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def delete(self, client_name: str) -> Client:
+    async def delete(self, client_name: str) -> None:
         raise NotImplementedError

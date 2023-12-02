@@ -14,12 +14,10 @@ if TYPE_CHECKING:
 class Flower(Base):
     __tablename__ = "flowers"
 
-    flower_name: Mapped[str] = mapped_column(
-        primary_key=True
-    )
+    flower_name: Mapped[str] = mapped_column(primary_key=True)
     visible: Mapped[bool] = mapped_column(default=True, nullable=False)
 
-    #sorts: Mapped[list["FlowerSort"]] = relationship(back_populates="type")
+    # sorts: Mapped[list["FlowerSort"]] = relationship(back_populates="type")
 
 
 class FlowerSort(Base):
@@ -28,13 +26,8 @@ class FlowerSort(Base):
     flower_name: Mapped[str] = mapped_column(
         ForeignKey("flowers.flower_name"), primary_key=True
     )
-    flower_sort: Mapped[str] = mapped_column(
-        primary_key=True
-    )
+    flower_sort: Mapped[str] = mapped_column(primary_key=True)
     visible: Mapped[bool] = mapped_column(default=True, nullable=False)
-
-    #type: Mapped["Flower"] = relationship(back_populates="sorts")
-    #lens: Mapped[list["FlowerLength"]] = relationship(back_populates="sort")
 
 
 class FlowerLength(Base):
@@ -46,11 +39,12 @@ class FlowerLength(Base):
 
     visible: Mapped[bool] = mapped_column(default=True, nullable=False)
 
-    #sort: Mapped[FlowerSort] = relationship(back_populates="lens")
-    #flowers: Mapped["FlowerInBox"] = relationship(back_populates="lenght")
-
     __table_args__: tuple = (
-        ForeignKeyConstraint([flower_name, flower_sort], [FlowerSort.flower_name, FlowerSort.flower_sort]), {})
+        ForeignKeyConstraint(
+            [flower_name, flower_sort], [FlowerSort.flower_name, FlowerSort.flower_sort]
+        ),
+        {},
+    )
 
 
 class FlowerInBox(Base):
@@ -58,39 +52,26 @@ class FlowerInBox(Base):
     __table_args__: tuple = (
         ForeignKeyConstraint(
             ["flower_name", "flower_sort", "flower_length"],
-            [FlowerLength.flower_name, FlowerLength.flower_sort, FlowerLength.flower_sort]
+            [
+                FlowerLength.flower_name,
+                FlowerLength.flower_sort,
+                FlowerLength.flower_sort,
+            ],
         ),
         {},
     )
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4())
 
-    stems: Mapped[int] = mapped_column(
-        nullable=False
-    )
-    income_price: Mapped[float] = mapped_column(
-        nullable=False
-    )
-    outcome_price: Mapped[float] = mapped_column(
-        nullable=True
-    )
-    hotline_miami_price: Mapped[float] = mapped_column(
-        nullable=True
-    )
+    stems: Mapped[int] = mapped_column(nullable=False)
+    income_price: Mapped[float] = mapped_column(nullable=False)
+    outcome_price: Mapped[float] = mapped_column(nullable=True)
+    hotline_miami_price: Mapped[float] = mapped_column(nullable=True)
 
     visible: Mapped[bool] = mapped_column(nullable=False, default=True)
 
     box_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("boxes.id"), nullable=False)
 
-    flower_name: Mapped[str] = mapped_column(
-        nullable=False
-    )
-    flower_sort: Mapped[str] = mapped_column(
-        nullable=False
-    )
-    flower_length: Mapped[str] = mapped_column(
-        nullable=False
-    )
-
-    #box: Mapped["Box"] = relationship(back_populates="flowers")
-    #lenght: Mapped[FlowerLength] = relationship(back_populates="flowers")
+    flower_name: Mapped[str] = mapped_column(nullable=False)
+    flower_sort: Mapped[str] = mapped_column(nullable=False)
+    flower_length: Mapped[str] = mapped_column(nullable=False)

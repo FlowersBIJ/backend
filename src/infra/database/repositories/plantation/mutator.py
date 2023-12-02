@@ -5,13 +5,16 @@ from src.application.common.entity_mutator import mutate_entity
 from src.application.enums.plantation.dto.plantation import Plantation
 from src.application.enums.plantation.dto.plantation_create import PlantationCreate
 from src.application.enums.plantation.dto.plantation_update import PlantationUpdate
-from src.application.enums.plantation.interfaces.plantation_mutator import PlantationMutator
+from src.application.enums.plantation.interfaces.plantation_mutator import (
+    PlantationMutator,
+)
 from src.infra.database.models.box import Plantation as PlantationDB
 from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import (
     EntityCreateException,
     EntityNotFoundException,
-    EntityDeleteException, EntityVisibilityChangeException,
+    EntityDeleteException,
+    EntityVisibilityChangeException,
 )
 
 
@@ -34,7 +37,7 @@ class Mutator(BaseRepo, PlantationMutator):
             await self.db.rollback()
             raise EntityCreateException(plantation)
 
-    async def delete(self, plantation: PlantationUpdate) -> Plantation:
+    async def delete(self, plantation: PlantationUpdate) -> None:
         plantation_db = await self.db.get(PlantationDB, plantation.plantation_name)
 
         if plantation_db is None:
@@ -65,7 +68,9 @@ class Mutator(BaseRepo, PlantationMutator):
 
         except IntegrityError:
             await self.db.rollback()
-            raise EntityVisibilityChangeException(plantation.plantation_name, "Plantation")
+            raise EntityVisibilityChangeException(
+                plantation.plantation_name, "Plantation"
+            )
 
     async def commit(self) -> None:
         await self.db.commit()

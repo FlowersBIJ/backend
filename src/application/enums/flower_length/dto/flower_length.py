@@ -8,6 +8,5 @@ class FlowerLength(DataTransferObject):
     flower_sort: str
     flower_length: str
     visible: bool
-    
+
     model_config = ConfigDict(from_attributes=True)
-    

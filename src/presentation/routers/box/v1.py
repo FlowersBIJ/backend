@@ -25,7 +25,7 @@ boxes = APIRouter(prefix="/boxes", tags=["boxes"])
     },
 )
 async def create_box(
-        box_create: BoxCreate, session: Annotated[AsyncSession, Depends(get_session)]
+    box_create: BoxCreate, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     mutator = Mutator(session)
     created_box = await mutator.add(box_create)
@@ -42,8 +42,8 @@ async def create_box(
     },
 )
 async def change_visibility_box(
-        box_id: uuid.UUID,
-        session: Annotated[AsyncSession, Depends(get_session)],
+    box_id: uuid.UUID,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     updated_box = await mutator.change_visibility(box_id=box_id)
@@ -60,13 +60,11 @@ async def change_visibility_box(
     },
 )
 async def delete_box(
-        box_id: uuid.UUID,
-        session: Annotated[AsyncSession, Depends(get_session)]
+    box_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     mutator = Mutator(session)
-    deleted_box = await mutator.delete(box_id=box_id)
+    await mutator.delete(box_id=box_id)
     await mutator.commit()
-    return deleted_box
 
 
 @boxes.put(
@@ -78,9 +76,9 @@ async def delete_box(
     },
 )
 async def update_box(
-        box_id: uuid.UUID,
-        box_update: BoxUpdate,
-        session: Annotated[AsyncSession, Depends(get_session)],
+    box_id: uuid.UUID,
+    box_update: BoxUpdate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     updated_scheme = await mutator.update(box_id=box_id, box=box_update)
@@ -96,7 +94,7 @@ async def update_box(
     },
 )
 async def get_box(
-        box_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
+    box_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
     box = await reader.get_by_id(box_id=box_id)
@@ -105,7 +103,7 @@ async def get_box(
 
 @boxes.get(path="/count", responses={status.HTTP_200_OK: {"model": int}})
 async def get_boxes_count(
-        session: Annotated[AsyncSession, Depends(get_session)], visible: bool | None = None
+    session: Annotated[AsyncSession, Depends(get_session)], visible: bool | None = None
 ):
     reader = Reader(session)
     count = await reader.get_count(visible)
@@ -120,7 +118,7 @@ async def get_boxes_count(
     },
 )
 async def get_boxes(
-        session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
+    session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
 ):
     reader = Reader(session)
     filtered_boxs = await reader.get_boxes(filters=filters)
@@ -134,7 +132,7 @@ async def get_boxes(
     },
 )
 async def box_exists_by_name(
-        box_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
+    box_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
     exists = await reader.check_exists_by_id(box_id)

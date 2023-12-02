@@ -21,4 +21,3 @@ class FlowerReader(ABC):
     @abstractmethod
     async def check_exists_by_name(self, flower_name: str) -> bool:
         raise NotImplementedError
-    

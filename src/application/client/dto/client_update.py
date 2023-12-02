@@ -7,7 +7,9 @@ from src.application.common.dto import DTOUpdate
 class ClientUpdate(DTOUpdate):
     alternative_name: str | None = Field(default=None)
 
-    visible: bool | None = Field(default=None, description="visible or invisible for manager")
+    visible: bool | None = Field(
+        default=None, description="visible or invisible for manager"
+    )
 
     country: str | None = Field(default=None)
     city: str | None = Field(default=None)
@@ -18,7 +20,14 @@ class ClientUpdate(DTOUpdate):
     @model_validator(mode="before")  # type: ignore
     def check_something_exists(cls, data: Any) -> Any:
         if isinstance(data, dict):
-            fields = ("alternative_name", "visible", "country", "city", "agencie", "truck")
+            fields = (
+                "alternative_name",
+                "visible",
+                "country",
+                "city",
+                "agencie",
+                "truck",
+            )
             if all(x not in data for x in fields):
                 raise ValueError
             return data

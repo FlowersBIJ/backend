@@ -24,7 +24,8 @@ agencies = APIRouter(prefix="/agencies", tags=["agencies"])
     },
 )
 async def create_agencie(
-    agencie_create: AgencieCreate, session: Annotated[AsyncSession, Depends(get_session)]
+    agencie_create: AgencieCreate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     created_agencie = await mutator.add(agencie_create)
@@ -59,13 +60,11 @@ async def change_visibility_agencie(
     },
 )
 async def delete_agencie(
-        agencie: AgencieUpdate,
-        session: Annotated[AsyncSession, Depends(get_session)]
+    agencie: AgencieUpdate, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     mutator = Mutator(session)
-    deleted_agencie = await mutator.delete(agencie=agencie)
+    await mutator.delete(agencie=agencie)
     await mutator.commit()
-    return deleted_agencie
 
 
 @agencies.get(

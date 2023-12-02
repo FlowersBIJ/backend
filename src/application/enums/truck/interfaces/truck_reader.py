@@ -21,4 +21,3 @@ class TruckReader(ABC):
     @abstractmethod
     async def check_exists_by_name(self, truck_name: str) -> bool:
         raise NotImplementedError
-    

@@ -4,7 +4,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.application.common.filters.filter import Filters, OrderFilter
 from src.application.enums.order_type.dto.order_type import OrderType
 from src.application.enums.order_type.dto.order_types import OrderTypes
-from src.application.enums.order_type.interfaces.order_type_reader import OrderTypeReader
+from src.application.enums.order_type.interfaces.order_type_reader import (
+    OrderTypeReader,
+)
 from src.infra.database.models.order import OrderType as OrderTypeDB
 from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import (
@@ -50,16 +52,14 @@ class Reader(BaseRepo, OrderTypeReader):
             total=total,
             offset=filters.offset,
             limit=filters.limit,
-            visible=filters.visible
+            visible=filters.visible,
         )
 
     async def get_count(self, visible: bool | None = None) -> int:
         q = select(func.count()).select_from(OrderTypeDB)
         if visible:
             q = q.where(OrderTypeDB.visible == visible)
-        return (
-            await self.db.scalar(q)
-        ) or 0
+        return (await self.db.scalar(q)) or 0
 
     async def check_exists_by_name(self, typename: str) -> bool:
         query = select(exists(OrderTypeDB).where(OrderTypeDB.typename == typename))

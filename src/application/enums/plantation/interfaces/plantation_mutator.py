@@ -9,12 +9,11 @@ class PlantationMutator(ABC):
     @abstractmethod
     async def add(self, plantation: PlantationCreate) -> Plantation:
         raise NotImplementedError
-    
+
     @abstractmethod
     async def change_visibility(self, plantation: PlantationUpdate) -> Plantation:
         raise NotImplementedError
-    
+
     @abstractmethod
-    async def delete(self, plantation: PlantationUpdate) -> Plantation:
+    async def delete(self, plantation: PlantationUpdate) -> None:
         raise NotImplementedError
-    

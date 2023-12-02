@@ -21,4 +21,3 @@ class AgencieReader(ABC):
     @abstractmethod
     async def check_exists_by_name(self, agencie_name: str) -> bool:
         raise NotImplementedError
-    

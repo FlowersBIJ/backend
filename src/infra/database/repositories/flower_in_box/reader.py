@@ -5,7 +5,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.application.common.filters.filter import Filters, OrderFilter
 from src.application.flower_in_box.dto.flowers_in_box import FlowerInBox, FlowersInBox
-from src.application.flower_in_box.interfaces.flower_in_box_reader import FlowerInBoxReader
+from src.application.flower_in_box.interfaces.flower_in_box_reader import (
+    FlowerInBoxReader,
+)
 from src.infra.database.models.flower import FlowerInBox as FlowerInBoxDB
 from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import EntityNotFoundException
@@ -49,14 +51,12 @@ class Reader(BaseRepo, FlowerInBoxReader):
             total=total,
             offset=filters.offset,
             limit=filters.limit,
-            visible=filters.visible
+            visible=filters.visible,
         )
 
     async def get_count(self, visible: bool | None = None) -> int:
         q = select(func.count()).select_from(FlowerInBoxDB)
-        return (
-            await self.db.scalar(q)
-        ) or 0
+        return (await self.db.scalar(q)) or 0
 
     async def check_exists_by_id(self, flower_id: uuid.UUID) -> bool:
         query = select(exists(FlowerInBoxDB).where(FlowerInBoxDB.id == flower_id))

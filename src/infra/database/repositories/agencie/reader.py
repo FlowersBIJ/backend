@@ -50,16 +50,14 @@ class Reader(BaseRepo, AgencieReader):
             total=total,
             offset=filters.offset,
             limit=filters.limit,
-            visible=filters.visible
+            visible=filters.visible,
         )
 
     async def get_count(self, visible: bool | None = None) -> int:
         q = select(func.count()).select_from(AgencieDB)
         if visible:
             q = q.where(AgencieDB.visible == visible)
-        return (
-            await self.db.scalar(q)
-        ) or 0
+        return (await self.db.scalar(q)) or 0
 
     async def check_exists_by_name(self, agencie_name: str) -> bool:
         query = select(exists(AgencieDB).where(AgencieDB.agencie_name == agencie_name))

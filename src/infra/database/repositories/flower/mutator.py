@@ -11,7 +11,8 @@ from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import (
     EntityCreateException,
     EntityNotFoundException,
-    EntityDeleteException, EntityVisibilityChangeException,
+    EntityDeleteException,
+    EntityVisibilityChangeException,
 )
 
 
@@ -34,7 +35,7 @@ class Mutator(BaseRepo, FlowerMutator):
             await self.db.rollback()
             raise EntityCreateException(flower)
 
-    async def delete(self, flower: FlowerUpdate) -> Flower:
+    async def delete(self, flower: FlowerUpdate) -> None:
         flower_db = await self.db.get(FlowerDB, flower.flower_name)
 
         if flower_db is None:

@@ -7,14 +7,18 @@ from src.application.common.entity_mutator import mutate_entity
 from src.application.flower_in_box.dto.flower_in_box import FlowerInBox
 from src.application.flower_in_box.dto.flower_in_box_create import FlowerInBoxCreate
 from src.application.flower_in_box.dto.flower_in_box_update import FlowerInBoxUpdate
-from src.application.flower_in_box.interfaces.flower_in_box_mutator import FlowerInBoxMutator
+from src.application.flower_in_box.interfaces.flower_in_box_mutator import (
+    FlowerInBoxMutator,
+)
 
 from src.infra.database.models.flower import FlowerInBox as FlowerInBoxDB
 from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import (
     EntityCreateException,
     EntityNotFoundException,
-    EntityDeleteException, EntityVisibilityChangeException, EntityUpdateException,
+    EntityDeleteException,
+    EntityVisibilityChangeException,
+    EntityUpdateException,
 )
 
 
@@ -37,7 +41,9 @@ class Mutator(BaseRepo, FlowerInBoxMutator):
             await self.db.rollback()
             raise EntityCreateException(flower)
 
-    async def update(self, flower_id: uuid.UUID, flower: FlowerInBoxUpdate) -> FlowerInBox:
+    async def update(
+        self, flower_id: uuid.UUID, flower: FlowerInBoxUpdate
+    ) -> FlowerInBox:
         flower_in_box_db = await self.db.get(FlowerInBoxDB, flower_id)
 
         if flower_in_box_db is None:
@@ -56,11 +62,11 @@ class Mutator(BaseRepo, FlowerInBoxMutator):
             await self.db.rollback()
             raise EntityUpdateException(flower)
 
-    async def delete(self, flower_id: uuid.UUID) -> FlowerInBox:
+    async def delete(self, flower_id: uuid.UUID) -> None:
         flower_db = await self.db.get(FlowerInBoxDB, flower_id)
 
         if flower_db is None:
-            raise EntityNotFoundException(flower_id, "FlowerInBox")
+            raise EntityNotFoundException(str(flower_id), "FlowerInBox")
 
         await self.db.delete(flower_db)
         try:
@@ -68,13 +74,13 @@ class Mutator(BaseRepo, FlowerInBoxMutator):
 
         except IntegrityError:
             await self.db.rollback()
-            raise EntityDeleteException(flower_id, "FlowerInBox")
+            raise EntityDeleteException(str(flower_id), "FlowerInBox")
 
-    async def change_visibility(self, flower_in_box: FlowerInBoxUpdate) -> FlowerInBox:
-        flower_db = await self.db.get(FlowerInBoxDB, flower_in_box.flower_name)
+    async def change_visibility(self, flower_id: uuid.UUID) -> FlowerInBox:
+        flower_db = await self.db.get(FlowerInBoxDB, flower_id)
 
         if flower_db is None:
-            raise EntityNotFoundException(flower_in_box.flower_name, "FlowerInBox")
+            raise EntityNotFoundException(str(flower_id), "FlowerInBox")
 
         flower_db.visible = not flower_db.visible
 
@@ -87,7 +93,7 @@ class Mutator(BaseRepo, FlowerInBoxMutator):
 
         except IntegrityError:
             await self.db.rollback()
-            raise EntityVisibilityChangeException(flower_in_box.flower_name, "FlowerInBox")
+            raise EntityVisibilityChangeException(str(flower_id), "FlowerInBox")
 
     async def commit(self) -> None:
         await self.db.commit()
