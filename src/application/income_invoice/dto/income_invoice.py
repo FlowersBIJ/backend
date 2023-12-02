@@ -10,6 +10,7 @@ class IncomeInvoice(DataTransferObject):
     
     invoice: str
     plantation: str
+    visible: bool
     
     model_config = ConfigDict(from_attributes=True)
     
