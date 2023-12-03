@@ -29,7 +29,7 @@ class Plantation(Base):
 class IncomeInvoice(Base):
     __tablename__ = "income_invoices"
 
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4())
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
     invoice: Mapped[str] = mapped_column(nullable=False)
     plantation: Mapped[str] = mapped_column(
         ForeignKey("plantations.plantation_name"), nullable=False
@@ -41,7 +41,7 @@ class IncomeInvoice(Base):
 class Box(Base):
     __tablename__ = "boxes"
 
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4())
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
 
     release_date: Mapped[date] = mapped_column(nullable=True)
     box_count: Mapped[int] = mapped_column(nullable=False)

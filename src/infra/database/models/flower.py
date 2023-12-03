@@ -61,7 +61,7 @@ class FlowerInBox(Base):
         {},
     )
 
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4())
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
 
     stems: Mapped[int] = mapped_column(nullable=False)
     income_price: Mapped[float] = mapped_column(nullable=False)
