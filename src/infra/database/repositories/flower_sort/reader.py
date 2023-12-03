@@ -9,9 +9,6 @@ from src.application.enums.flower_sort.interfaces.flower_sort_reader import (
 )
 from src.infra.database.models.flower import FlowerSort as FlowerSortDB
 from src.infra.database.repositories.base import BaseRepo
-from src.infra.database.repositories.exceptions import (
-    EntityNotFoundException,
-)
 
 
 class Reader(BaseRepo, FlowerSortReader):
@@ -80,12 +77,12 @@ class Reader(BaseRepo, FlowerSortReader):
             q = q.where(FlowerSortDB.visible == visible)
         return (await self.db.scalar(q)) or 0
 
-    async def check_exists_by_sort(self, sort: FlowerSort) -> bool:
+    async def check_exists_by_sort(self, flower_name: str, flower_sort: str) -> bool:
         query = select(
             exists(FlowerSortDB).where(
                 and_(
-                    FlowerSortDB.flower_name == sort.flower_name,
-                    FlowerSortDB.flower_sort == sort.flower_sort,
+                    FlowerSortDB.flower_name == flower_name,
+                    FlowerSortDB.flower_sort == flower_sort,
                 )
             )
         )

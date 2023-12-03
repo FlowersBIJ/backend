@@ -80,12 +80,13 @@ class Reader(BaseRepo, FlowerLengthReader):
         q = select(func.count()).select_from(FlowerLengthDB)
         return (await self.db.scalar(q)) or 0
 
-    async def check_exists_by_sort(self, flower_length: FlowerLength) -> bool:
+    async def check_exists_by_sort(self, flower_name: str, flower_sort: str, flower_length: str) -> bool:
         query = select(
             exists(FlowerLengthDB).where(
                 and_(
-                    FlowerLengthDB.flower_name == flower_length.flower_name,
-                    FlowerLengthDB.flower_length == flower_length.flower_length,
+                    FlowerLengthDB.flower_name == flower_name,
+                    FlowerLengthDB.flower_sort == flower_sort,
+                    FlowerLengthDB.flower_length == flower_length,
                 )
             )
         )
