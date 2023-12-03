@@ -11,7 +11,7 @@ class FlowerInBoxUpdate(DTOUpdate):
     outcome_price: float | None = Field(default=None, gt=0)
     hotline_miami_price: float | None = Field(default=None, gt=0)
 
-    stems: int | None = Field(default=0, gt=0)
+    stems: int | None = Field(default=None, gt=0)
 
     visible: bool | None = Field(default=None)
 

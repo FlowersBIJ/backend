@@ -118,8 +118,8 @@ async def get_flowers_sorts(
     },
 )
 async def flower_sort_exists_by_name(
-    flower_sort: FlowerSort, session: Annotated[AsyncSession, Depends(get_session)]
+    flower_name: str, flower_sort: str, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
-    exists = await reader.check_exists_by_sort(flower_sort)
+    exists = await reader.check_exists_by_sort(flower_name=flower_name, flower_sort=flower_sort)
     return exists

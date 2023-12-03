@@ -61,7 +61,7 @@ class Mutator(BaseRepo, FlowerLengthMutator):
     async def change_visibility(
         self, flower_length: FlowerLengthUpdate
     ) -> FlowerLength:
-        flower_db = await self.db.get(FlowerLengthDB, flower_length.flower_name)
+        flower_db = await self.db.get(FlowerLengthDB, (flower_length.flower_name, flower_length.flower_sort, flower_length.flower_length))
 
         if flower_db is None:
             raise EntityNotFoundException(flower_length.flower_name, "FlowerLength")

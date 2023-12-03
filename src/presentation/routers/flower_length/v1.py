@@ -123,8 +123,8 @@ async def get_flowers_length(
     },
 )
 async def flower_length_exists_by_name(
-    flower_length: FlowerLength, session: Annotated[AsyncSession, Depends(get_session)]
+    flower_name: str, flower_sort: str, flower_length: str, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
-    exists = await reader.check_exists_by_sort(flower_length)
+    exists = await reader.check_exists_by_sort(flower_name=flower_name, flower_sort=flower_sort, flower_length=flower_length)
     return exists

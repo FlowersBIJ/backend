@@ -15,4 +15,4 @@ class FlowersLength(DataTransferObject):
     total: int | None = None
     offset: int | None = None
     limit: int | None = None
-    visible: bool
+    visible: bool | None = None

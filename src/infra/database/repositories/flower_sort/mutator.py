@@ -44,7 +44,7 @@ class Mutator(BaseRepo, FlowerSortMutator):
         )
 
         if flower_db is None:
-            raise EntityNotFoundException(flower_sort.flower_name, "FlowerSort")
+            raise EntityNotFoundException(f"{flower_sort.flower_name} - {flower_sort.flower_sort}", "FlowerSort")
 
         await self.db.delete(flower_db)
         try:
@@ -52,13 +52,13 @@ class Mutator(BaseRepo, FlowerSortMutator):
 
         except IntegrityError:
             await self.db.rollback()
-            raise EntityDeleteException(flower_sort.flower_name, "FlowerSort")
+            raise EntityDeleteException(f"{flower_sort.flower_name} - {flower_sort.flower_sort}", "FlowerSort")
 
     async def change_visibility(self, flower_sort: FlowerSortUpdate) -> FlowerSort:
-        flower_db = await self.db.get(FlowerSortDB, flower_sort.flower_name)
+        flower_db = await self.db.get(FlowerSortDB, (flower_sort.flower_name, flower_sort.flower_sort))
 
         if flower_db is None:
-            raise EntityNotFoundException(flower_sort.flower_name, "FlowerSort")
+            raise EntityNotFoundException(f"{flower_sort.flower_name} - {flower_sort.flower_sort}", "FlowerSort")
 
         flower_db.visible = not flower_db.visible
 
@@ -71,7 +71,7 @@ class Mutator(BaseRepo, FlowerSortMutator):
 
         except IntegrityError:
             await self.db.rollback()
-            raise EntityVisibilityChangeException(flower_sort.flower_name, "FlowerSort")
+            raise EntityVisibilityChangeException(f"{flower_sort.flower_name} - {flower_sort.flower_sort}", "FlowerSort")
 
     async def commit(self) -> None:
         await self.db.commit()

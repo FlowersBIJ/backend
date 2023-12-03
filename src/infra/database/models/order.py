@@ -21,7 +21,7 @@ class OrderType(Base):
 class Order(Base):
     __tablename__ = "orders"
 
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4())
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
     manager_name: Mapped[str] = mapped_column(
         nullable=False
     )  # TODO: Maybe create FK to manager from casdoor
