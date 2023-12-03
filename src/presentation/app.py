@@ -1,6 +1,6 @@
 from typing import Any
 
-from fastapi import FastAPI, Depends, APIRouter
+from fastapi import APIRouter, Depends, FastAPI
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from src.infra.log import log

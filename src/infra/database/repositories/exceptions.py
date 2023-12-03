@@ -1,9 +1,8 @@
 from dataclasses import dataclass
-from typing import TypeVar, Generic
+from typing import Generic, TypeVar
 
 from src.application.common.dto import DTOCreate, DTOUpdate
 from src.application.common.exceptions import ApplicationException
-
 
 EntityCreateType = TypeVar("EntityCreateType", bound=DTOCreate)
 EntityUpdateType = TypeVar("EntityUpdateType", bound=DTOUpdate)

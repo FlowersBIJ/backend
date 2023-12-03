@@ -47,8 +47,24 @@ services:
       - database
   
 
+  casdoor:
+    container_name: "casdoor"
+    networks:
+      - db_net
+    image: casbin/casdoor:latest
+    ports:
+      - "8020:8020"
+#    expose:
+#      - "8020"
+    volumes:
+      - ./deploy/casdoor:/conf
+    depends_on:
+      database:
+        condition: service_healthy
 volumes:
   db:
+    driver: local
+  casdoor:
     driver: local
 
 networks:

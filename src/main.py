@@ -1,9 +1,8 @@
 import asyncio
 import os
 
-from src.application.common.exceptions import ApplicationException
-
 from src.app import Application
+from src.application.common.exceptions import ApplicationException
 from src.infra.log import log
 
 logger = log()
