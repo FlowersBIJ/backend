@@ -4,7 +4,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.application.common.filters.filter import Filters, OrderFilter
 from src.application.enums.plantation.dto.plantation import Plantation
 from src.application.enums.plantation.dto.plantations import Plantations
-from src.application.enums.plantation.interfaces.plantation_reader import PlantationReader
+from src.application.enums.plantation.interfaces.plantation_reader import (
+    PlantationReader,
+)
 from src.infra.database.models.box import Plantation as PlantationDB
 from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import (
@@ -50,17 +52,17 @@ class Reader(BaseRepo, PlantationReader):
             total=total,
             offset=filters.offset,
             limit=filters.limit,
-            visible=filters.visible
+            visible=filters.visible,
         )
 
     async def get_count(self, visible: bool | None = None) -> int:
         q = select(func.count()).select_from(PlantationDB)
         if visible:
             q = q.where(PlantationDB.visible == visible)
-        return (
-            await self.db.scalar(q)
-        ) or 0
+        return (await self.db.scalar(q)) or 0
 
     async def check_exists_by_name(self, plantation_name: str) -> bool:
-        query = select(exists(PlantationDB).where(PlantationDB.plantation_name == plantation_name))
+        query = select(
+            exists(PlantationDB).where(PlantationDB.plantation_name == plantation_name)
+        )
         return bool(await self.db.scalar(query))

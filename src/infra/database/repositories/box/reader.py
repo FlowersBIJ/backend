@@ -52,16 +52,14 @@ class Reader(BaseRepo, BoxReader):
             total=total,
             offset=filters.offset,
             limit=filters.limit,
-            visible=filters.visible
+            visible=filters.visible,
         )
 
     async def get_count(self, visible: bool | None = None) -> int:
         q = select(func.count()).select_from(BoxDB)
         if visible:
             q = q.where(BoxDB.visible == visible)
-        return (
-            await self.db.scalar(q)
-        ) or 0
+        return (await self.db.scalar(q)) or 0
 
     async def check_exists_by_id(self, box_id: UUID) -> bool:
         query = select(exists(BoxDB).where(BoxDB.id == box_id))

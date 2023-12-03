@@ -6,7 +6,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.application.common.filters.filter import Filters, OrderFilter
 from src.application.income_invoice.dto.income_invoice import IncomeInvoice
 from src.application.income_invoice.dto.income_invoices import IncomeInvoices
-from src.application.income_invoice.interfaces.income_invoice_reader import IncomeInvoiceReader
+from src.application.income_invoice.interfaces.income_invoice_reader import (
+    IncomeInvoiceReader,
+)
 from src.infra.database.models.box import IncomeInvoice as IncomeInvoiceDB
 from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import (
@@ -56,9 +58,7 @@ class Reader(BaseRepo, IncomeInvoiceReader):
 
     async def get_count(self) -> int:
         q = select(func.count()).select_from(IncomeInvoiceDB)
-        return (
-            await self.db.scalar(q)
-        ) or 0
+        return (await self.db.scalar(q)) or 0
 
     async def check_exists_by_id(self, invoice_id: uuid.UUID) -> bool:
         query = select(exists(IncomeInvoiceDB).where(IncomeInvoiceDB.id == invoice_id))

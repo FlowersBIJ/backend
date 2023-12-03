@@ -8,7 +8,7 @@ OrderDTO = Order | OrderCreate | OrderUpdate
 
 
 class Orders(DataTransferObject):
-    orders: list[OrderDTO]
+    orders: list[Order]
     total: int
     offset: int | None = None
     limit: int | None = None

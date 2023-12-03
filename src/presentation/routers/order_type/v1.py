@@ -24,7 +24,8 @@ order_types = APIRouter(prefix="/order_types", tags=["order_types"])
     },
 )
 async def create_order_type(
-    order_type_create: OrderTypeCreate, session: Annotated[AsyncSession, Depends(get_session)]
+    order_type_create: OrderTypeCreate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     created_order_type = await mutator.add(order_type_create)
@@ -59,13 +60,11 @@ async def change_visibility_order_type(
     },
 )
 async def delete_order_type(
-        order_type: OrderTypeUpdate,
-        session: Annotated[AsyncSession, Depends(get_session)]
+    order_type: OrderTypeUpdate, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     mutator = Mutator(session)
-    deleted_order_type = await mutator.delete(order_type)
+    await mutator.delete(order_type)
     await mutator.commit()
-    return deleted_order_type
 
 
 @order_types.get(

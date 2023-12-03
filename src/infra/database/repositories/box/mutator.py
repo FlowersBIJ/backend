@@ -15,7 +15,8 @@ from src.infra.database.repositories.exceptions import (
     EntityCreateException,
     EntityUpdateException,
     EntityNotFoundException,
-    EntityDeleteException, EntityVisibilityChangeException,
+    EntityDeleteException,
+    EntityVisibilityChangeException,
 )
 
 
@@ -57,7 +58,7 @@ class Mutator(BaseRepo, BoxMutator):
             await self.db.rollback()
             raise EntityUpdateException(box)
 
-    async def delete(self, box_id: UUID) -> Box:
+    async def delete(self, box_id: UUID) -> None:
         box_db = await self.db.get(BoxDB, box_id)
 
         if box_db is None:

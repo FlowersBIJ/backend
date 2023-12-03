@@ -12,7 +12,9 @@ class FlowerInBoxMutator(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def update(self, flower_id: uuid.UUID, flower: FlowerInBoxUpdate) -> FlowerInBox:
+    async def update(
+        self, flower_id: uuid.UUID, flower: FlowerInBoxUpdate
+    ) -> FlowerInBox:
         raise NotImplementedError
 
     @abstractmethod
@@ -20,5 +22,5 @@ class FlowerInBoxMutator(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def delete(self, flower_id: uuid.UUID) -> FlowerInBox:
+    async def delete(self, flower_id: uuid.UUID) -> None:
         raise NotImplementedError

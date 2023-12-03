@@ -5,14 +5,17 @@ from src.application.common.entity_mutator import mutate_entity
 from src.application.enums.flower_sort.dto.flower_sort import FlowerSort
 from src.application.enums.flower_sort.dto.flower_sort_create import FlowerSortCreate
 from src.application.enums.flower_sort.dto.flower_sort_update import FlowerSortUpdate
-from src.application.enums.flower_sort.interfaces.flower_sort_mutator import FlowerSortMutator
+from src.application.enums.flower_sort.interfaces.flower_sort_mutator import (
+    FlowerSortMutator,
+)
 
 from src.infra.database.models.flower import FlowerSort as FlowerSortDB
 from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import (
     EntityCreateException,
     EntityNotFoundException,
-    EntityDeleteException, EntityVisibilityChangeException,
+    EntityDeleteException,
+    EntityVisibilityChangeException,
 )
 
 
@@ -35,8 +38,10 @@ class Mutator(BaseRepo, FlowerSortMutator):
             await self.db.rollback()
             raise EntityCreateException(flower)
 
-    async def delete(self, flower_sort: FlowerSortUpdate) -> FlowerSort:
-        flower_db = await self.db.get(FlowerSortDB, (flower_sort.flower_name, flower_sort.flower_sort))
+    async def delete(self, flower_sort: FlowerSortUpdate) -> None:
+        flower_db = await self.db.get(
+            FlowerSortDB, (flower_sort.flower_name, flower_sort.flower_sort)
+        )
 
         if flower_db is None:
             raise EntityNotFoundException(flower_sort.flower_name, "FlowerSort")

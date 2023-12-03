@@ -20,5 +20,5 @@ class OrderMutator(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def delete(self, order_id: uuid.UUID) -> Order:
+    async def delete(self, order_id: uuid.UUID) -> None:
         raise NotImplementedError

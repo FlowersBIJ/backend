@@ -7,7 +7,7 @@ ClientDTO = Client | ClientCreate | ClientUpdate
 
 
 class Clients(DataTransferObject):
-    clients: list[ClientDTO]
+    clients: list[Client]
     total: int
     offset: int | None = None
     limit: int | None = None

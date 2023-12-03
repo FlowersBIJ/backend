@@ -6,4 +6,3 @@ class FlowerLengthCreate(DTOCreate):
     flower_sort: str
     flower_length: str
     visible: bool
-    

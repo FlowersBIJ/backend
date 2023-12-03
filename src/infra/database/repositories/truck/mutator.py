@@ -11,7 +11,8 @@ from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import (
     EntityCreateException,
     EntityNotFoundException,
-    EntityDeleteException, EntityVisibilityChangeException,
+    EntityDeleteException,
+    EntityVisibilityChangeException,
 )
 
 
@@ -34,7 +35,7 @@ class Mutator(BaseRepo, TruckMutator):
             await self.db.rollback()
             raise EntityCreateException(truck)
 
-    async def delete(self, truck: TruckUpdate) -> Truck:
+    async def delete(self, truck: TruckUpdate) -> None:
         truck_db = await self.db.get(TruckDB, truck.truck_name)
 
         if truck_db is None:

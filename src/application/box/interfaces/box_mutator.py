@@ -20,5 +20,5 @@ class BoxMutator(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def delete(self, box_id: uuid.UUID) -> Box:
+    async def delete(self, box_id: uuid.UUID) -> None:
         raise NotImplementedError

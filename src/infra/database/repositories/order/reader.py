@@ -52,16 +52,14 @@ class Reader(BaseRepo, OrderReader):
             total=total,
             offset=filters.offset,
             limit=filters.limit,
-            visible=filters.visible
+            visible=filters.visible,
         )
 
     async def get_count(self, visible: bool | None = None) -> int:
         q = select(func.count()).select_from(OrderDB)
         if visible:
             q = q.where(OrderDB.visible == visible)
-        return (
-            await self.db.scalar(q)
-        ) or 0
+        return (await self.db.scalar(q)) or 0
 
     async def check_exists_by_id(self, order_id: uuid.UUID) -> bool:
         query = select(exists(OrderDB).where(OrderDB.id == order_id))

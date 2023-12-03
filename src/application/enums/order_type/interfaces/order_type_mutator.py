@@ -9,12 +9,11 @@ class OrderTypeMutator(ABC):
     @abstractmethod
     async def add(self, order: OrderTypeCreate) -> OrderType:
         raise NotImplementedError
-    
+
     @abstractmethod
     async def change_visibility(self, order: OrderTypeUpdate) -> OrderType:
         raise NotImplementedError
-    
+
     @abstractmethod
-    async def delete(self, order: OrderTypeUpdate) -> OrderType:
+    async def delete(self, order: OrderTypeUpdate) -> None:
         raise NotImplementedError
-    

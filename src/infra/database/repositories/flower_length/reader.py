@@ -4,7 +4,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.application.common.filters.filter import Filters, OrderFilter
 from src.application.enums.flower_length.dto.flower_length import FlowerLength
 from src.application.enums.flower_length.dto.flowers_length import FlowersLength
-from src.application.enums.flower_length.interfaces.flower_length_reader import FlowerLengthReader
+from src.application.enums.flower_length.interfaces.flower_length_reader import (
+    FlowerLengthReader,
+)
 from src.infra.database.models.flower import FlowerLength as FlowerLengthDB
 from src.infra.database.repositories.base import BaseRepo
 
@@ -13,11 +15,13 @@ class Reader(BaseRepo, FlowerLengthReader):
     def __init__(self, db: AsyncSession) -> None:
         super().__init__(db)
 
-    async def get_by_flower_name_and_sort(self, flower_name: str, flower_sort: str, filters: Filters) -> FlowersLength:
+    async def get_by_flower_name_and_sort(
+        self, flower_name: str, flower_sort: str, filters: Filters
+    ) -> FlowersLength:
         query = select(FlowerLengthDB).where(
             and_(
                 FlowerLengthDB.flower_name == flower_name,
-                FlowerLengthDB.flower_sort == flower_sort
+                FlowerLengthDB.flower_sort == flower_sort,
             )
         )
         if filters.order is OrderFilter.ASC:
@@ -42,7 +46,7 @@ class Reader(BaseRepo, FlowerLengthReader):
             total=total,
             offset=filters.offset,
             limit=filters.limit,
-            visible=filters.visible
+            visible=filters.visible,
         )
 
     async def get_all(self, filters: Filters) -> FlowersLength:
@@ -69,20 +73,20 @@ class Reader(BaseRepo, FlowerLengthReader):
             total=total,
             offset=filters.offset,
             limit=filters.limit,
-            visible=filters.visible
+            visible=filters.visible,
         )
 
     async def get_count(self) -> int:
         q = select(func.count()).select_from(FlowerLengthDB)
-        return (
-            await self.db.scalar(q)
-        ) or 0
+        return (await self.db.scalar(q)) or 0
 
     async def check_exists_by_sort(self, flower_length: FlowerLength) -> bool:
-        query = select(exists(FlowerLengthDB).where(
-            and_(
-                FlowerLengthDB.flower_name == flower_length.flower_name,
-                FlowerLengthDB.flower_length == flower_length.flower_length,
+        query = select(
+            exists(FlowerLengthDB).where(
+                and_(
+                    FlowerLengthDB.flower_name == flower_length.flower_name,
+                    FlowerLengthDB.flower_length == flower_length.flower_length,
+                )
             )
-        ))
+        )
         return bool(await self.db.scalar(query))

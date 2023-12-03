@@ -12,7 +12,8 @@ from src.infra.database.repositories.exceptions import (
     EntityCreateException,
     EntityUpdateException,
     EntityNotFoundException,
-    EntityDeleteException, EntityVisibilityChangeException,
+    EntityDeleteException,
+    EntityVisibilityChangeException,
 )
 
 
@@ -54,7 +55,7 @@ class Mutator(BaseRepo, ClientMutator):
             await self.db.rollback()
             raise EntityUpdateException(client)
 
-    async def delete(self, client_name: str) -> Client:
+    async def delete(self, client_name: str) -> None:
         client_db = await self.db.get(ClientDB, client_name)
 
         if client_db is None:

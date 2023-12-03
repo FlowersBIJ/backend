@@ -59,13 +59,11 @@ async def change_visibility_truck(
     },
 )
 async def delete_truck(
-        truck: TruckUpdate,
-        session: Annotated[AsyncSession, Depends(get_session)]
+    truck: TruckUpdate, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     mutator = Mutator(session)
-    deleted_truck = await mutator.delete(truck=truck)
+    await mutator.delete(truck=truck)
     await mutator.commit()
-    return deleted_truck
 
 
 @trucks.get(

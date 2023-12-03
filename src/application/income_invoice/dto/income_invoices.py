@@ -8,7 +8,7 @@ IncomeInvoiceDTO = IncomeInvoice | IncomeInvoiceCreate | IncomeInvoiceUpdate
 
 
 class IncomeInvoices(DataTransferObject):
-    invoices: list[IncomeInvoiceDTO]
+    invoices: list[IncomeInvoice]
     total: int
     offset: int | None = None
     limit: int | None = None

@@ -1,5 +1,4 @@
 import asyncio
-import logging
 
 import uvicorn
 from dynaconf import Dynaconf  # type: ignore

@@ -9,12 +9,11 @@ class TruckMutator(ABC):
     @abstractmethod
     async def add(self, truck: TruckCreate) -> Truck:
         raise NotImplementedError
-    
+
     @abstractmethod
     async def change_visibility(self, truck: TruckUpdate) -> Truck:
         raise NotImplementedError
-    
+
     @abstractmethod
-    async def delete(self, truck: TruckUpdate) -> Truck:
+    async def delete(self, truck: TruckUpdate) -> None:
         raise NotImplementedError
-    

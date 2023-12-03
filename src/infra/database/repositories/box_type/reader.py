@@ -52,16 +52,14 @@ class Reader(BaseRepo, BoxTypeReader):
             total=total,
             offset=filters.offset,
             limit=filters.limit,
-            visible=filters.visible
+            visible=filters.visible,
         )
 
     async def get_count(self, visible: bool | None = None) -> int:
         q = select(func.count()).select_from(BoxTypeDB)
         if visible:
             q = q.where(BoxTypeDB.visible == visible)
-        return (
-            await self.db.scalar(q)
-        ) or 0
+        return (await self.db.scalar(q)) or 0
 
     async def check_exists_by_name(self, typename: str) -> bool:
         query = select(exists(BoxTypeDB).where(BoxTypeDB.typename == typename))

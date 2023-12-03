@@ -24,7 +24,7 @@ clients = APIRouter(prefix="/clients", tags=["clients"])
     },
 )
 async def create_client(
-        client_create: ClientCreate, session: Annotated[AsyncSession, Depends(get_session)]
+    client_create: ClientCreate, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     mutator = Mutator(session)
     created_client = await mutator.add(client_create)
@@ -41,8 +41,8 @@ async def create_client(
     },
 )
 async def change_visibility_client(
-        client_name: str,
-        session: Annotated[AsyncSession, Depends(get_session)],
+    client_name: str,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     updated_client = await mutator.change_visibility(client_name=client_name)
@@ -59,13 +59,11 @@ async def change_visibility_client(
     },
 )
 async def delete_client(
-        client_name: str,
-        session: Annotated[AsyncSession, Depends(get_session)]
+    client_name: str, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     mutator = Mutator(session)
-    deleted_client = await mutator.delete(client_name=client_name)
+    await mutator.delete(client_name=client_name)
     await mutator.commit()
-    return deleted_client
 
 
 @clients.put(
@@ -77,9 +75,9 @@ async def delete_client(
     },
 )
 async def update_client(
-        client_name: str,
-        client_update: ClientUpdate,
-        session: Annotated[AsyncSession, Depends(get_session)],
+    client_name: str,
+    client_update: ClientUpdate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     updated_scheme = await mutator.update(client_name=client_name, client=client_update)
@@ -95,7 +93,7 @@ async def update_client(
     },
 )
 async def get_client(
-        client_name: str, session: Annotated[AsyncSession, Depends(get_session)]
+    client_name: str, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
     client = await reader.get_by_name(client_name)
@@ -104,7 +102,7 @@ async def get_client(
 
 @clients.get(path="/count", responses={status.HTTP_200_OK: {"model": int}})
 async def get_clients_count(
-        session: Annotated[AsyncSession, Depends(get_session)], visible: bool | None = None
+    session: Annotated[AsyncSession, Depends(get_session)], visible: bool | None = None
 ):
     reader = Reader(session)
     count = await reader.get_count(visible)
@@ -119,7 +117,7 @@ async def get_clients_count(
     },
 )
 async def get_clients(
-        session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
+    session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
 ):
     reader = Reader(session)
     filtered_clients = await reader.get_clients(filters=filters)
@@ -133,7 +131,7 @@ async def get_clients(
     },
 )
 async def client_exists_by_name(
-        client_name: str, session: Annotated[AsyncSession, Depends(get_session)]
+    client_name: str, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
     exists = await reader.check_exists_by_name(client_name)

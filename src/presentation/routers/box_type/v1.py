@@ -25,7 +25,8 @@ box_types = APIRouter(prefix="/box_types", tags=["box_types"])
     },
 )
 async def create_box_type(
-    box_type_create: BoxTypeCreate, session: Annotated[AsyncSession, Depends(get_session)]
+    box_type_create: BoxTypeCreate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     created_box_type = await mutator.add(box_type_create)
@@ -60,13 +61,11 @@ async def change_visibility_box_type(
     },
 )
 async def delete_box_type(
-        box_type_id: uuid.UUID,
-        session: Annotated[AsyncSession, Depends(get_session)]
+    box: BoxTypeUpdate, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     mutator = Mutator(session)
-    deleted_box_type = await mutator.delete(box_type_id)
+    await mutator.delete(box)
     await mutator.commit()
-    return deleted_box_type
 
 
 @box_types.get(

@@ -8,7 +8,7 @@ FlowerInBoxDTO = FlowerInBox | FlowerInBoxCreate | FlowerInBoxUpdate
 
 
 class FlowersInBox(DataTransferObject):
-    flowers: list[FlowerInBoxDTO]
+    flowers: list[FlowerInBox]
     total: int
     offset: int | None = None
     limit: int | None = None

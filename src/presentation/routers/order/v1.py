@@ -25,7 +25,7 @@ orders = APIRouter(prefix="/orders", tags=["orders"])
     },
 )
 async def create_order(
-        order_create: OrderCreate, session: Annotated[AsyncSession, Depends(get_session)]
+    order_create: OrderCreate, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     mutator = Mutator(session)
     created_order = await mutator.add(order_create)
@@ -42,8 +42,8 @@ async def create_order(
     },
 )
 async def change_visibility_order(
-        order_id: uuid.UUID,
-        session: Annotated[AsyncSession, Depends(get_session)],
+    order_id: uuid.UUID,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     updated_order = await mutator.change_visibility(order_id)
@@ -60,13 +60,11 @@ async def change_visibility_order(
     },
 )
 async def delete_order(
-        order_id: uuid.UUID,
-        session: Annotated[AsyncSession, Depends(get_session)]
+    order_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     mutator = Mutator(session)
-    deleted_order = await mutator.delete(order_id)
+    await mutator.delete(order_id)
     await mutator.commit()
-    return deleted_order
 
 
 @orders.put(
@@ -78,9 +76,9 @@ async def delete_order(
     },
 )
 async def update_order(
-        order_id: uuid.UUID,
-        order_update: OrderUpdate,
-        session: Annotated[AsyncSession, Depends(get_session)],
+    order_id: uuid.UUID,
+    order_update: OrderUpdate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     updated_scheme = await mutator.update(order_id, order_update)
@@ -96,7 +94,7 @@ async def update_order(
     },
 )
 async def get_order(
-        order_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
+    order_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
     order = await reader.get_by_id(order_id)
@@ -105,7 +103,7 @@ async def get_order(
 
 @orders.get(path="/count", responses={status.HTTP_200_OK: {"model": int}})
 async def get_orders_count(
-        session: Annotated[AsyncSession, Depends(get_session)], visible: bool | None = None
+    session: Annotated[AsyncSession, Depends(get_session)], visible: bool | None = None
 ):
     reader = Reader(session)
     count = await reader.get_count(visible)
@@ -120,7 +118,7 @@ async def get_orders_count(
     },
 )
 async def get_orders(
-        session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
+    session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
 ):
     reader = Reader(session)
     filtered_orders = await reader.get_orders(filters=filters)
@@ -134,7 +132,7 @@ async def get_orders(
     },
 )
 async def order_exists_by_id(
-        order_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
+    order_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
     exists = await reader.check_exists_by_id(order_id)

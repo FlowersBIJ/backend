@@ -7,9 +7,8 @@ PlantationDTO = Plantation | PlantationCreate | PlantationUpdate
 
 
 class Plantations(DataTransferObject):
-    plantations: list[PlantationDTO]
+    plantations: list[Plantation]
     total: int | None = None
     offset: int | None = None
     limit: int | None = None
     visible: bool | None
-    

@@ -5,8 +5,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
 from src.application.enums.flower_length.dto.flower_length import FlowerLength
-from src.application.enums.flower_length.dto.flower_length_create import FlowerLengthCreate
-from src.application.enums.flower_length.dto.flower_length_update import FlowerLengthUpdate
+from src.application.enums.flower_length.dto.flower_length_create import (
+    FlowerLengthCreate,
+)
+from src.application.enums.flower_length.dto.flower_length_update import (
+    FlowerLengthUpdate,
+)
 from src.application.enums.flower_length.dto.flowers_length import FlowersLength
 from src.application.common.filters.filter import Filters
 from src.infra.database.repositories.flower_length.mutator import Mutator
@@ -24,7 +28,8 @@ flowers_length = APIRouter(prefix="/flower_lengths", tags=["flower_lengths"])
     },
 )
 async def create_flower_length(
-        flower_length_create: FlowerLengthCreate, session: Annotated[AsyncSession, Depends(get_session)]
+    flower_length_create: FlowerLengthCreate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     created_flower_length = await mutator.add(flower_length_create)
@@ -41,8 +46,8 @@ async def create_flower_length(
     },
 )
 async def change_visibility_flower_length(
-        flower_length: FlowerLengthUpdate,
-        session: Annotated[AsyncSession, Depends(get_session)],
+    flower_length: FlowerLengthUpdate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     updated_flower_length = await mutator.change_visibility(flower_length)
@@ -59,13 +64,12 @@ async def change_visibility_flower_length(
     },
 )
 async def delete_flower_length(
-        flower_length: FlowerLengthUpdate,
-        session: Annotated[AsyncSession, Depends(get_session)]
+    flower_length: FlowerLengthUpdate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
-    deleted_flower_length = await mutator.delete(flower_length)
+    await mutator.delete(flower_length)
     await mutator.commit()
-    return deleted_flower_length
 
 
 @flowers_length.get(
@@ -76,20 +80,21 @@ async def delete_flower_length(
     },
 )
 async def get_flower_length_by_name_and_sort(
-        flower_name: str, flower_sort: str, session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
+    flower_name: str,
+    flower_sort: str,
+    session: Annotated[AsyncSession, Depends(get_session)],
+    filters: Filters = Depends(),
 ):
     reader = Reader(session)
     flower_length = await reader.get_by_flower_name_and_sort(
-        flower_name=flower_name,
-        flower_sort=flower_sort,
-        filters=filters
+        flower_name=flower_name, flower_sort=flower_sort, filters=filters
     )
     return flower_length
 
 
 @flowers_length.get(path="/count", responses={status.HTTP_200_OK: {"model": int}})
 async def get_flower_lengths_count(
-        session: Annotated[AsyncSession, Depends(get_session)]
+    session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
     count = await reader.get_count()
@@ -104,7 +109,7 @@ async def get_flower_lengths_count(
     },
 )
 async def get_flowers_length(
-        session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
+    session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
 ):
     reader = Reader(session)
     filtered_flower_lengths = await reader.get_all(filters=filters)
@@ -118,7 +123,7 @@ async def get_flowers_length(
     },
 )
 async def flower_length_exists_by_name(
-        flower_length: FlowerLength, session: Annotated[AsyncSession, Depends(get_session)]
+    flower_length: FlowerLength, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
     exists = await reader.check_exists_by_sort(flower_length)

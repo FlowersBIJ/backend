@@ -7,9 +7,8 @@ AgencieDTO = Agencie | AgencieCreate | AgencieUpdate
 
 
 class Agencies(DataTransferObject):
-    agencies: list[AgencieDTO]
+    agencies: list[Agencie]
     total: int | None = None
     offset: int | None = None
     limit: int | None = None
     visible: bool | None
-    

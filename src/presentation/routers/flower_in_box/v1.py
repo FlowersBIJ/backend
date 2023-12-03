@@ -25,7 +25,8 @@ flowers_in_box = APIRouter(prefix="/flowers_in_box", tags=["flowers_in_box"])
     },
 )
 async def create_flowers_in_box(
-        flowers_in_box_create: FlowerInBoxCreate, session: Annotated[AsyncSession, Depends(get_session)]
+    flowers_in_box_create: FlowerInBoxCreate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
     created_flowers_in_box = await mutator.add(flowers_in_box_create)
@@ -42,11 +43,11 @@ async def create_flowers_in_box(
     },
 )
 async def change_visibility_flowers_in_box(
-        flower_in_box: FlowerInBoxUpdate,
-        session: Annotated[AsyncSession, Depends(get_session)],
+    flower_id: uuid.UUID,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
-    updated_flowers_in_box = await mutator.change_visibility(flower_in_box)
+    updated_flowers_in_box = await mutator.change_visibility(flower_id)
     await mutator.commit()
     return updated_flowers_in_box
 
@@ -60,13 +61,11 @@ async def change_visibility_flowers_in_box(
     },
 )
 async def delete_flowers_in_box(
-        flowers_in_box_id: uuid.UUID,
-        session: Annotated[AsyncSession, Depends(get_session)]
+    flowers_in_box_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     mutator = Mutator(session)
-    deleted_flowers_in_box = await mutator.delete(flower_id=flowers_in_box_id)
+    await mutator.delete(flower_id=flowers_in_box_id)
     await mutator.commit()
-    return deleted_flowers_in_box
 
 
 @flowers_in_box.put(
@@ -78,12 +77,14 @@ async def delete_flowers_in_box(
     },
 )
 async def update_flowers_in_box(
-        flowers_in_box_id: uuid.UUID,
-        flowers_in_box_update: FlowerInBoxUpdate,
-        session: Annotated[AsyncSession, Depends(get_session)],
+    flowers_in_box_id: uuid.UUID,
+    flowers_in_box_update: FlowerInBoxUpdate,
+    session: Annotated[AsyncSession, Depends(get_session)],
 ):
     mutator = Mutator(session)
-    updated_scheme = await mutator.update(flower_id=flowers_in_box_id, flower=flowers_in_box_update)
+    updated_scheme = await mutator.update(
+        flower_id=flowers_in_box_id, flower=flowers_in_box_update
+    )
     await mutator.commit()
     return updated_scheme
 
@@ -96,7 +97,7 @@ async def update_flowers_in_box(
     },
 )
 async def get_flowers_in_box(
-        flowers_in_box_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
+    flowers_in_box_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
     flowers_in_box_ = await reader.get_by_id(flower_id=flowers_in_box_id)
@@ -105,7 +106,7 @@ async def get_flowers_in_box(
 
 @flowers_in_box.get(path="/count", responses={status.HTTP_200_OK: {"model": int}})
 async def get_flowers_in_boxes_count(
-        session: Annotated[AsyncSession, Depends(get_session)], visible: bool | None = None
+    session: Annotated[AsyncSession, Depends(get_session)], visible: bool | None = None
 ):
     reader = Reader(session)
     count = await reader.get_count(visible)
@@ -120,7 +121,7 @@ async def get_flowers_in_boxes_count(
     },
 )
 async def get_flowers_in_boxes(
-        session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
+    session: Annotated[AsyncSession, Depends(get_session)], filters: Filters = Depends()
 ):
     reader = Reader(session)
     filtered_flowers_in_boxs = await reader.get_flowers(filters=filters)
@@ -134,7 +135,7 @@ async def get_flowers_in_boxes(
     },
 )
 async def flowers_in_box_exists_by_name(
-        flowers_in_box_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
+    flowers_in_box_id: uuid.UUID, session: Annotated[AsyncSession, Depends(get_session)]
 ):
     reader = Reader(session)
     exists = await reader.check_exists_by_id(flowers_in_box_id)

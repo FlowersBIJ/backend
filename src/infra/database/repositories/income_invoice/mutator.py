@@ -7,13 +7,17 @@ from src.application.common.entity_mutator import mutate_entity
 from src.application.income_invoice.dto.income_invoice import IncomeInvoice
 from src.application.income_invoice.dto.income_invoice_create import IncomeInvoiceCreate
 from src.application.income_invoice.dto.income_invoice_update import IncomeInvoiceUpdate
-from src.application.income_invoice.interfaces.income_invoice_mutator import IncomeInvoiceMutator
+from src.application.income_invoice.interfaces.income_invoice_mutator import (
+    IncomeInvoiceMutator,
+)
 from src.infra.database.models.box import IncomeInvoice as IncomeInvoiceDB
 from src.infra.database.repositories.base import BaseRepo
 from src.infra.database.repositories.exceptions import (
     EntityCreateException,
     EntityNotFoundException,
-    EntityDeleteException, EntityUpdateException, EntityVisibilityChangeException,
+    EntityDeleteException,
+    EntityUpdateException,
+    EntityVisibilityChangeException,
 )
 
 
@@ -36,7 +40,7 @@ class Mutator(BaseRepo, IncomeInvoiceMutator):
             await self.db.rollback()
             raise EntityCreateException(invoice)
 
-    async def delete(self, invoice_id: uuid.UUID) -> IncomeInvoice:
+    async def delete(self, invoice_id: uuid.UUID) -> None:
         income_invoice_db = await self.db.get(IncomeInvoiceDB, invoice_id)
 
         if income_invoice_db is None:
@@ -50,7 +54,9 @@ class Mutator(BaseRepo, IncomeInvoiceMutator):
             await self.db.rollback()
             raise EntityDeleteException(str(invoice_id), "IncomeInvoice")
 
-    async def update(self, invoice_id: uuid.UUID, invoice: IncomeInvoiceUpdate) -> IncomeInvoice:
+    async def update(
+        self, invoice_id: uuid.UUID, invoice: IncomeInvoiceUpdate
+    ) -> IncomeInvoice:
         income_invoice_db = await self.db.get(IncomeInvoiceDB, invoice_id)
 
         if income_invoice_db is None:

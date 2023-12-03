@@ -15,7 +15,8 @@ from src.infra.database.repositories.exceptions import (
     EntityCreateException,
     EntityUpdateException,
     EntityNotFoundException,
-    EntityDeleteException, EntityVisibilityChangeException,
+    EntityDeleteException,
+    EntityVisibilityChangeException,
 )
 
 
@@ -38,11 +39,11 @@ class Mutator(BaseRepo, BoxTypeMutator):
             await self.db.rollback()
             raise EntityCreateException(box_type)
 
-    async def delete(self, box_type_id: UUID) -> BoxType:
-        box_type_db = await self.db.get(BoxTypeDB, box_type_id)
+    async def delete(self, box: BoxTypeUpdate) -> None:
+        box_type_db = await self.db.get(BoxTypeDB, box.typename)
 
         if box_type_db is None:
-            raise EntityNotFoundException(str(box_type_id), "BoxType")
+            raise EntityNotFoundException(box.typename, "BoxType")
 
         await self.db.delete(box_type_db)
         try:
@@ -50,7 +51,7 @@ class Mutator(BaseRepo, BoxTypeMutator):
 
         except IntegrityError:
             await self.db.rollback()
-            raise EntityDeleteException(str(box_type_id), "BoxType")
+            raise EntityDeleteException(box.typename, "BoxType")
 
     async def change_visibility(self, box: BoxTypeUpdate) -> BoxType:
         box_type_db = await self.db.get(BoxTypeDB, box.typename)

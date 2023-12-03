@@ -9,12 +9,11 @@ class FlowerSortMutator(ABC):
     @abstractmethod
     async def add(self, flower: FlowerSortCreate) -> FlowerSort:
         raise NotImplementedError
-    
+
     @abstractmethod
     async def change_visibility(self, flower_sort: FlowerSortUpdate) -> FlowerSort:
         raise NotImplementedError
-    
+
     @abstractmethod
-    async def delete(self, flower_sort: FlowerSortUpdate) -> FlowerSort:
+    async def delete(self, flower_sort: FlowerSortUpdate) -> None:
         raise NotImplementedError
-    

@@ -54,7 +54,7 @@ def setup_routers(app: FastAPI, prefix: str) -> None:
             orders,
             order_types,
             plantations,
-            trucks
+            trucks,
         ],
     )
 
