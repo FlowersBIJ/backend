@@ -7,6 +7,12 @@ class BaseAuthError(ApplicationException):
         return "Auth error occurred!"
 
 
+class JWTDecodingException(BaseAuthError):
+    @property
+    def message(self) -> str:
+        return "JWT Decoding exception"
+
+
 class WrongAuthCode(BaseAuthError):
     @property
     def message(self) -> str:
@@ -14,6 +20,10 @@ class WrongAuthCode(BaseAuthError):
 
 
 class WrongCredentials(BaseAuthError):
+    def __init__(self, error: str, error_description: str) -> None:
+        self.error = error
+        self.error_description = error_description
+
     @property
     def message(self) -> str:
-        return "Wrong username or password for authorization server."
+        return f"{self.error} - {self.error_description}"
