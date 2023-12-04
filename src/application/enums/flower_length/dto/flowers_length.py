@@ -11,7 +11,7 @@ FlowerLengthDTO = FlowerLength | FlowerLengthCreate | FlowerLengthUpdate
 
 
 class FlowersLength(DataTransferObject):
-    flowers_length: list[FlowerLength]
+    flower_lengths: list[FlowerLength]
     total: int | None = None
     offset: int | None = None
     limit: int | None = None

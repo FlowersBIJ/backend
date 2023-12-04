@@ -7,7 +7,7 @@ OrderTypeDTO = OrderType | OrderTypeCreate | OrderTypeUpdate
 
 
 class OrderTypes(DataTransferObject):
-    types: list[OrderType]
+    order_types: list[OrderType]
     total: int | None = None
     offset: int | None = None
     limit: int | None = None

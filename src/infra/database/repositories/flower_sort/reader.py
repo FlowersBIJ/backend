@@ -37,7 +37,7 @@ class Reader(BaseRepo, FlowerSortReader):
         total = await self.get_count(visible=filters.visible)
         dto_list = [FlowerSort.model_validate(result) for result in results]
         return FlowersSorts(
-            flowers_sorts=dto_list,
+            flower_sorts=dto_list,
             total=total,
             offset=filters.offset,
             limit=filters.limit,
@@ -64,7 +64,7 @@ class Reader(BaseRepo, FlowerSortReader):
         total = await self.get_count(visible=filters.visible)
         dto_list = [FlowerSort.model_validate(result) for result in results]
         return FlowersSorts(
-            flowers_sorts=dto_list,
+            flower_sorts=dto_list,
             total=total,
             offset=filters.offset,
             limit=filters.limit,
