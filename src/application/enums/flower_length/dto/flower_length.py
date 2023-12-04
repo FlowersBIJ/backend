@@ -4,7 +4,7 @@ from src.application.common.dto import DataTransferObject
 
 
 class FlowerLength(DataTransferObject):
-    flower_name: str = Field(serialization_alias="name")
+    flower_name: str = Field(serialization_alias="label")
     flower_sort: str
     flower_length: str
     visible: bool

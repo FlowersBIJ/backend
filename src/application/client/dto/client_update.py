@@ -32,3 +32,9 @@ class ClientUpdate(DTOUpdate):
                 raise ValueError
             return data
         raise ValueError
+
+    @model_validator(mode="after")
+    def validate_delivery(self) -> "ClientUpdate":
+        if self.agencie or self.truck:
+            return self
+        raise ValueError("agencie or truck must be set")

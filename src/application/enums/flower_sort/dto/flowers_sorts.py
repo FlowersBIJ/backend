@@ -7,7 +7,7 @@ FlowerSortDTO = FlowerSort | FlowerSortCreate | FlowerSortUpdate
 
 
 class FlowersSorts(DataTransferObject):
-    flower_sorts: list[FlowerSort]
+    sorts: list[FlowerSort]
     total: int | None = None
     offset: int | None = None
     limit: int | None = None

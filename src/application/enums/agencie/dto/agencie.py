@@ -4,7 +4,7 @@ from src.application.common.dto import DataTransferObject
 
 
 class Agencie(DataTransferObject):
-    agencie_name: str = Field(serialization_alias="name")
+    agencie_name: str = Field(serialization_alias="label")
     visible: bool
 
     model_config = ConfigDict(from_attributes=True)
