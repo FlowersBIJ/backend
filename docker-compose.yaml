@@ -1,7 +1,10 @@
 services:
   app:
     container_name: "app"
-    build: .
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: development
     environment:
       SETTINGS: deploy/backend
     networks:

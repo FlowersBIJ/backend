@@ -7,7 +7,6 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 from starlette.middleware.cors import CORSMiddleware
 
 from src.exceptions import DisposeException, StartServerException
-from src.infra.casdoor.auth import JWTValidatorService
 from src.infra.database.session import setup_database
 from src.infra.log import log
 from src.presentation.app import setup_middlewares, setup_routers
@@ -19,12 +18,10 @@ class Application:
         config: Dynaconf,
         app: FastAPI,
         sqlalchemy_engine: AsyncEngine,
-        auth: JWTValidatorService,
     ) -> None:
         self._config = config
         self._app = app
         self._sqlalchemy_engine = sqlalchemy_engine
-        self._auth = auth
 
     @classmethod
     async def from_config(cls, settings_path: str) -> "Application":
@@ -58,22 +55,9 @@ class Application:
         setup_routers(app, config.api.prefix)
         setup_middlewares(app)
 
-        logger.info("Initializing auth application")
-        auth_params = {
-            "endpoint": config.casdoor.endpoint,
-            "client_id": config.casdoor.client_id,
-            "client_secret": config.casdoor.client_secret,
-            "certificate": config.casdoor.certificate,
-            "org_name": config.casdoor.org_name,
-            "application_name": config.api.project_name,
-            "front_endpoint": config.casdoor.front_endpoint
-        }
-        auth = JWTValidatorService(**auth_params)
-        logger.info("Initializing auth finished")
-
         logger.info("Creating application")
         application = Application(
-            config=config, app=app, sqlalchemy_engine=sqlalchemy_engine, auth=auth
+            config=config, app=app, sqlalchemy_engine=sqlalchemy_engine
         )
 
         logger.info("Initializing application finished")
