@@ -21,5 +21,7 @@ class FlowerLengthReader(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def check_exists_by_sort(self, flower_name: str, flower_sort: str, flower_length: str) -> bool:
+    async def check_exists_by_sort(
+        self, flower_name: str, flower_sort: str, flower_length: str
+    ) -> bool:
         raise NotImplementedError

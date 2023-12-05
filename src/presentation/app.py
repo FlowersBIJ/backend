@@ -19,6 +19,7 @@ from src.presentation.routers.order.v1 import orders
 from src.presentation.routers.order_type.v1 import order_types
 from src.presentation.routers.plantation.v1 import plantations
 from src.presentation.routers.truck.v1 import trucks
+from src.presentation.routers.services.table.v1 import table
 
 
 def configure_routers(
@@ -55,6 +56,7 @@ def setup_routers(app: FastAPI, prefix: str) -> None:
             order_types,
             plantations,
             trucks,
+            table,
         ],
     )
 

@@ -10,9 +10,6 @@ class UIAuth(ABC):
 
     @abstractmethod
     async def modify_user(
-            self,
-            method: str,
-            user: User,
-            params: Dict | None = None
+        self, method: str, user: User, params: Dict | None = None
     ) -> Dict:
         raise NotImplementedError
