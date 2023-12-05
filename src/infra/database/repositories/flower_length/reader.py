@@ -42,7 +42,7 @@ class Reader(BaseRepo, FlowerLengthReader):
         total = await self.get_count()
         dto_list = [FlowerLength.model_validate(result) for result in results]
         return FlowersLength(
-            flowers_length=dto_list,
+            flower_lengths=dto_list,
             total=total,
             offset=filters.offset,
             limit=filters.limit,
@@ -69,7 +69,7 @@ class Reader(BaseRepo, FlowerLengthReader):
         total = await self.get_count()
         dto_list = [FlowerLength.model_validate(result) for result in results]
         return FlowersLength(
-            flowers_length=dto_list,
+            flower_lengths=dto_list,
             total=total,
             offset=filters.offset,
             limit=filters.limit,

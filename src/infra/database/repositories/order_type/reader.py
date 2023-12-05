@@ -48,7 +48,7 @@ class Reader(BaseRepo, OrderTypeReader):
         total = await self.get_count(visible=filters.visible)
         dto_list = [OrderType.model_validate(result) for result in results]
         return OrderTypes(
-            types=dto_list,
+            order_types=dto_list,
             total=total,
             offset=filters.offset,
             limit=filters.limit,
