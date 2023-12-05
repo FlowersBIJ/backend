@@ -8,6 +8,9 @@ from src.application.flower_in_box.dto.flower_in_box import FlowerInBox
 
 class Flower(DataTransferObject):
     flower: FlowerInBox
+    total: float
+    total_sale: float
+    difference: float
 
 
 class Box(DataTransferObject):

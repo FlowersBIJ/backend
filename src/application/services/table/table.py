@@ -79,7 +79,22 @@ class Table:
                                         None,
                                     ),
                                     flowers=[
-                                        Flower(flower=flower)
+                                        Flower(
+                                            flower=flower,
+                                            total=flower.income_price * flower.stems,
+                                            total_sale=flower.outcome_price
+                                            * flower.stems
+                                            if flower.hotline_miami_price is None
+                                            else flower.hotline_miami_price
+                                            * flower.stems,
+                                            difference=(
+                                                flower.outcome_price * flower.stems
+                                                if flower.hotline_miami_price is None
+                                                else flower.hotline_miami_price
+                                                * flower.stems
+                                            )
+                                            - flower.income_price * flower.stems,
+                                        )
                                         for flower in flowers_list.flowers
                                         if flower.box_id == box.id
                                     ],
