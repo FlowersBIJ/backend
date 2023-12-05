@@ -7,6 +7,8 @@ from starlette import status
 from src.application.services.table.dto import TableDTO
 from src.application.services.table.table import Table
 
+from src.infra.database.repositories.client.reader import Reader as ClientReader
+from src.infra.database.repositories.order.reader import Reader as OrderReader
 from src.infra.database.repositories.income_invoice.reader import (
     Reader as InvoiceReader,
 )
@@ -26,11 +28,15 @@ async def get_table(
     visible: bool,
     session: Annotated[AsyncSession, Depends(get_session)],
 ):
+    client_reader = ClientReader(session)
+    order_reader = OrderReader(session)
     invoice_reader = InvoiceReader(session)
     box_reader = BoxReader(session)
     flower_reader = FlowerReader(session)
 
     return await Table(
+        client_reader=client_reader,
+        order_reader=order_reader,
         invoice_reader=invoice_reader,
         box_reader=box_reader,
         flower_in_box_reader=flower_reader,
